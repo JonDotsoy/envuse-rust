@@ -2,6 +2,11 @@
 name = "envuse-parser"
 version = "0.1.0-beta.0"
 edition = "2021"
+description = "a parser to envuse file"
+license = "MIT"
+authors = ["Jonathan Delgado <hi@jon.soy> (http://jon.soy)"]
+homepage = "https://github.com/JonDotsoy/envuse-rust"
+repository = "https://github.com/JonDotsoy/envuse-rust"
 
 [lib]
 doc = true
