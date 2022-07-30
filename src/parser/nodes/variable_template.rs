@@ -1,4 +1,7 @@
+use serde::Serialize;
+
 use super::super::node_parser::NodeParser;
+use super::super::utils::trim::trim_spaces;
 use super::literal::Literal;
 use crate::parser::error_kind::ErrorKind;
 use crate::parser::node::Node;
@@ -7,9 +10,8 @@ use crate::parser::nodes::variable_link::VariableLinkParser;
 use crate::parser::token::PointerContext;
 use crate::parser::token::Token;
 use crate::utils::try_slice::try_slice_by_size;
-use super::super::utils::trim::trim_spaces;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct VariableTemplate {
     pub template: Vec<Node>,
 }

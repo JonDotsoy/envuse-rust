@@ -1,3 +1,4 @@
+use serde::Serialize;
 use super::super::super::utils::try_slice::try_slice_by_size;
 use super::super::error_kind::ErrorKind;
 use super::super::node::Node;
@@ -9,7 +10,7 @@ use super::variable_name::VariableNameParser;
 use super::variable_template::VariableValueParser;
 use super::variable_type::VariableTypeParser;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Variable {
     pub variable_name: Box<Node>,
     pub variable_type: Option<Box<Node>>,

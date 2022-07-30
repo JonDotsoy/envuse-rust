@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 use super::super::iter_parsers::{iter_parsers, FnParser};
 use super::super::node::Node;
 use super::super::node_kind::NodeKind;
@@ -8,7 +10,7 @@ use super::super::ErrorKind;
 use super::inline_comment::InlineCommentParser;
 use super::variable::VariableParser;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct Document {
     pub nodes: Vec<Box<Node>>,
 }

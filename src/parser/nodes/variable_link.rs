@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 use crate::utils::try_slice::try_slice_by_size;
 
 use super::super::super::utils::try_slice::try_slice;
@@ -11,7 +13,7 @@ use super::super::utils::trim::trim_spaces;
 use super::variable_name::VariableName;
 use super::variable_name::VariableNameParser;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct VariableLink {
     pub variable: Box<Node>,
     pub options: Vec<Box<Node>>,

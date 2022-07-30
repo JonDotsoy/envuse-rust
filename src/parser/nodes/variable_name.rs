@@ -1,3 +1,5 @@
+use serde::Serialize;
+
 use super::super::super::utils::try_slice::try_slice_by_size;
 use super::super::node_kind::NodeKind;
 use super::super::node_parser::NodeParser;
@@ -6,7 +8,7 @@ use super::super::ErrorKind;
 use super::super::Node;
 use super::super::PointerContext;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Serialize)]
 pub struct VariableName {
     pub name: String,
 }
