@@ -25,7 +25,7 @@ pub struct VariableValueParser;
 impl NodeParser for VariableValueParser {
     fn parse<'a>(
         &self,
-        payload: &'static [u8],
+        payload: &'a [u8],
         pointer_context: &'a mut PointerContext,
     ) -> Result<Node, ErrorKind> {
         let mut template: Vec<Node> = vec![];

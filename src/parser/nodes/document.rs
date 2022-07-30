@@ -3,7 +3,6 @@ use super::super::node::Node;
 use super::super::node_kind::NodeKind;
 use super::super::node_parser::NodeParser;
 use super::super::token::PointerContext;
-use super::super::utils::trim::trim_spaces;
 use super::super::utils::trim::trim_spaces_and_newline;
 use super::super::ErrorKind;
 use super::inline_comment::InlineCommentParser;
@@ -25,7 +24,7 @@ pub struct DocumentParser;
 impl NodeParser for DocumentParser {
     fn parse<'a>(
         &self,
-        payload: &'static [u8],
+        payload: &[u8],
         pointer_context: &'a mut PointerContext,
     ) -> Result<Node, ErrorKind> {
         let start_pointer_context = pointer_context.clone();

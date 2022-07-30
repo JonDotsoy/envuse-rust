@@ -22,7 +22,7 @@ pub struct VariableNameParser;
 impl NodeParser for VariableNameParser {
     fn parse<'a>(
         &self,
-        payload: &'static [u8],
+        payload: &'a [u8],
         pointer_context: &'a mut PointerContext,
     ) -> Result<Node, ErrorKind> {
         let start = pointer_context.clone();

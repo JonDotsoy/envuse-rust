@@ -12,7 +12,7 @@ impl FnParser {
 }
 
 pub fn iter_parsers<'a>(
-    payload: &'static [u8],
+    payload: &'a [u8],
     pointer_context: &'a mut PointerContext,
     parsers: &Vec<Box<dyn NodeParser>>,
 ) -> Option<Node> {
