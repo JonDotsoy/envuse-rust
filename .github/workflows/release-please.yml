@@ -9,6 +9,6 @@ jobs:
     steps:
       - uses: google-github-actions/release-please-action@v3
         with:
+          command: manifest-pr
           package-name: release-please-action
-          release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
