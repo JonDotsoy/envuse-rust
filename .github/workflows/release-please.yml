@@ -2,7 +2,7 @@ on:
   workflow_dispatch: {}
   push:
     branches:
-      - development
+      - main
 name: release-please
 jobs:
   release-please:
@@ -13,4 +13,4 @@ jobs:
           package-name: release-please-action
           release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
-          default-branch: development
+          default-branch: main
