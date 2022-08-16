@@ -14,3 +14,4 @@ jobs:
           release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
           default-branch: development
+          prerelease: true
