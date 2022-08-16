@@ -5,7 +5,7 @@ use super::super::node::Node;
 use super::super::node_parser::NodeParser;
 use super::super::token::PointerContext;
 use super::literal::Literal;
-use crate::parser::node_kind::NodeKind;
+use crate::parser::kind::Kind;
 use crate::parser::token::Token;
 use crate::utils::try_slice::try_slice_by_size;
 
@@ -17,7 +17,7 @@ pub struct InlineComment {
 
 impl InlineComment {
     pub fn get_comment(&self) -> Literal {
-        if let NodeKind::Literal(literal) = self.comment.clone().to_node_kind() {
+        if let Kind::Literal(literal) = self.comment.clone().to_kind() {
             return literal;
         }
 
@@ -25,7 +25,7 @@ impl InlineComment {
     }
 }
 
-impl From<InlineComment> for NodeKind {
+impl From<InlineComment> for Kind {
     fn from(v: InlineComment) -> Self {
         Self::InlineComment(v)
     }
@@ -63,7 +63,7 @@ impl NodeParser for InlineCommentParser {
                         span: pointer_context.create_span(ident_number_start_pointer_context),
                     };
                     let raw = token.slice_for_string(payload);
-                    ident_number = Box::new(Node(token, NodeKind::from(Literal(raw))));
+                    ident_number = Box::new(Node(token, Kind::from(Literal(raw))));
                     break;
                 }
             }
@@ -93,11 +93,11 @@ impl NodeParser for InlineCommentParser {
 
         let raw = String::from_utf8(token_comment.slice_for(payload).to_vec()).unwrap();
 
-        let comment = Box::new(Node(token_comment, NodeKind::from(Literal(raw))));
+        let comment = Box::new(Node(token_comment, Kind::from(Literal(raw))));
 
         Ok(Node(
             token,
-            NodeKind::from(InlineComment {
+            Kind::from(InlineComment {
                 ident_number,
                 comment,
             }),

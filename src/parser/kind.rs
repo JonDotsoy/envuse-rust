@@ -10,7 +10,7 @@ use super::nodes::variable_template::VariableTemplate;
 use super::nodes::variable_type::VariableType;
 
 #[derive(Debug, Clone, Serialize)]
-pub enum NodeKind {
+pub enum Kind {
     Fragment,
     Document(Document),
     FragmentNamed(String),
@@ -23,7 +23,7 @@ pub enum NodeKind {
     Variable(Variable),
 }
 
-impl NodeKind {
+impl Kind {
     /// Returns `true` if the node kind is [`InlineComment`].
     ///
     /// [`InlineComment`]: NodeKind::InlineComment
@@ -73,7 +73,7 @@ impl NodeKind {
     }
 }
 
-impl Default for NodeKind {
+impl Default for Kind {
     fn default() -> Self {
         Self::Fragment
     }

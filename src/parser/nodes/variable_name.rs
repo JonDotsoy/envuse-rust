@@ -1,7 +1,7 @@
 use serde::Serialize;
 
 use super::super::super::utils::try_slice::try_slice_by_size;
-use super::super::node_kind::NodeKind;
+use super::super::kind::Kind;
 use super::super::node_parser::NodeParser;
 use super::super::token::Token;
 use super::super::ErrorKind;
@@ -13,9 +13,9 @@ pub struct VariableName {
     pub name: String,
 }
 
-impl From<VariableName> for NodeKind {
+impl From<VariableName> for Kind {
     fn from(v: VariableName) -> Self {
-        NodeKind::VariableName(v)
+        Kind::VariableName(v)
     }
 }
 
@@ -70,7 +70,7 @@ impl NodeParser for VariableNameParser {
             Token {
                 span: pointer_context.create_span(start),
             },
-            NodeKind::from(VariableName { name }),
+            Kind::from(VariableName { name }),
         ))
     }
 }

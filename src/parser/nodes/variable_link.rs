@@ -2,10 +2,9 @@ use serde::Serialize;
 
 use crate::utils::try_slice::try_slice_by_size;
 
-use super::super::super::utils::try_slice::try_slice;
 use super::super::error_kind::ErrorKind;
 use super::super::node::Node;
-use super::super::node_kind::NodeKind;
+use super::super::kind::Kind;
 use super::super::node_parser::NodeParser;
 use super::super::token::PointerContext;
 use super::super::token::Token;
@@ -21,7 +20,7 @@ pub struct VariableLink {
 
 impl VariableLink {
     pub fn get_variable(&self) -> VariableName {
-        if let NodeKind::VariableName(variable_name) = self.variable.clone().to_node_kind() {
+        if let Kind::VariableName(variable_name) = self.variable.clone().to_kind() {
             return variable_name;
         }
 
@@ -29,9 +28,9 @@ impl VariableLink {
     }
 }
 
-impl From<VariableLink> for NodeKind {
+impl From<VariableLink> for Kind {
     fn from(v: VariableLink) -> Self {
-        NodeKind::VariableLink(v)
+        Kind::VariableLink(v)
     }
 }
 
@@ -87,7 +86,7 @@ impl NodeParser for VariableLinkParser {
             Token {
                 span: pointer_context.create_span(start),
             },
-            NodeKind::from(VariableLink { variable, options }),
+            Kind::from(VariableLink { variable, options }),
         ))
     }
 }

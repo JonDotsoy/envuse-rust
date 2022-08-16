@@ -7,7 +7,7 @@ use self::token::PointerContext;
 pub mod error_kind;
 pub mod iter_parsers;
 pub mod node;
-pub mod node_kind;
+pub mod kind;
 pub mod node_parser;
 pub mod nodes;
 pub mod payload;

@@ -3,7 +3,7 @@ use serde::Serialize;
 use super::super::super::utils::try_slice::try_slice_by_size;
 use super::super::error_kind::ErrorKind;
 use super::super::node::Node;
-use super::super::node_kind::NodeKind;
+use super::super::kind::Kind;
 use super::super::node_parser::NodeParser;
 use super::super::PointerContext;
 use super::variable_name::VariableNameParser;
@@ -14,9 +14,9 @@ pub struct VariableType {
     pub variable_type: Box<Node>,
 }
 
-impl From<VariableType> for NodeKind {
+impl From<VariableType> for Kind {
     fn from(v: VariableType) -> Self {
-        NodeKind::VariableType(v)
+        Kind::VariableType(v)
     }
 }
 

@@ -19,7 +19,7 @@ mod parser_tests {
     use envuse_parser::parser::iter_parsers::iter_parsers;
     use envuse_parser::parser::iter_parsers::FnParser;
     use envuse_parser::parser::node::Node;
-    use envuse_parser::parser::node_kind::NodeKind;
+    use envuse_parser::parser::kind::Kind;
     use envuse_parser::parser::node_parser::NodeParser;
     use envuse_parser::parser::nodes::document::DocumentParser;
     use envuse_parser::parser::nodes::inline_comment::InlineCommentParser;
@@ -186,7 +186,7 @@ mod parser_tests {
         let node = ok_parse.unwrap();
         let variable_value = node
             .clone()
-            .to_node_kind()
+            .to_kind()
             .try_into_variable_value()
             .unwrap();
 
@@ -198,7 +198,7 @@ mod parser_tests {
             false,
         );
 
-        let chunk_a = if let Node(_, NodeKind::Literal(Literal(chunk))) =
+        let chunk_a = if let Node(_, Kind::Literal(Literal(chunk))) =
             variable_value.template.get(0).unwrap()
         {
             chunk
@@ -206,7 +206,7 @@ mod parser_tests {
             panic!()
         };
 
-        let chunk_b = if let Node(_, NodeKind::VariableLink(chunk)) =
+        let chunk_b = if let Node(_, Kind::VariableLink(chunk)) =
             variable_value.template.get(1).unwrap()
         {
             chunk.get_variable()
@@ -214,7 +214,7 @@ mod parser_tests {
             panic!()
         };
 
-        let chunk_c = if let Node(_, NodeKind::Literal(Literal(chunk))) =
+        let chunk_c = if let Node(_, Kind::Literal(Literal(chunk))) =
             variable_value.template.get(2).unwrap()
         {
             chunk
@@ -236,7 +236,7 @@ mod parser_tests {
         let parser = variable_link_parser.parse(payload, &mut PointerContext::start_zero());
 
         let node = parser.unwrap();
-        let node_kind = node.to_node_kind();
+        let node_kind = node.to_kind();
         let variable_link = node_kind.try_into_variable_link().unwrap();
 
         assert!(matches!(variable_link, VariableLink { .. }));
@@ -253,7 +253,7 @@ mod parser_tests {
         let parser = variable_name_parser.parse(payload, &mut PointerContext::start_zero());
 
         let node = parser.unwrap();
-        let node_kind = node.to_node_kind();
+        let node_kind = node.to_kind();
         let variable_name = node_kind.try_into_variable_name().unwrap();
 
         assert!(matches!(variable_name, VariableName { .. }));
@@ -269,7 +269,7 @@ mod parser_tests {
         let parser = variable_link_parser.parse(payload, &mut PointerContext::start_zero());
 
         let node = parser.unwrap();
-        let node_kind = node.clone().to_node_kind();
+        let node_kind = node.clone().to_kind();
         let variable_link = node_kind.try_into_variable_link().unwrap();
 
         snap(
@@ -282,7 +282,7 @@ mod parser_tests {
         assert_eq!(
             variable_link
                 .variable
-                .to_node_kind()
+                .to_kind()
                 .try_into_variable_name()
                 .unwrap()
                 .name,
@@ -307,7 +307,7 @@ mod parser_tests {
                     Token {
                         span: pointer_context.move_columns(1).create_span(start),
                     },
-                    NodeKind::FragmentNamed("A::parse".to_string()),
+                    Kind::FragmentNamed("A::parse".to_string()),
                 )),
                 _ => Err(ErrorKind::NotMatchParser),
             }
@@ -326,7 +326,7 @@ mod parser_tests {
                     Token {
                         span: pointer_context.move_columns(1).create_span(start),
                     },
-                    NodeKind::FragmentNamed("B::parse".to_string()),
+                    Kind::FragmentNamed("B::parse".to_string()),
                 )),
                 _ => Err(ErrorKind::NotMatchParser),
             }

@@ -1,12 +1,12 @@
 use serde::Serialize;
 
-use super::super::node_kind::NodeKind;
+use super::super::kind::Kind;
 
 #[derive(Debug, Clone, Serialize)]
 pub struct Literal(pub String);
 
-impl From<Literal> for NodeKind {
+impl From<Literal> for Kind {
     fn from(v: Literal) -> Self {
-        NodeKind::Literal(v)
+        Kind::Literal(v)
     }
 }

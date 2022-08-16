@@ -1,9 +1,9 @@
 use serde::Serialize;
-use super::node_kind::NodeKind;
+use super::kind::Kind;
 use super::token::Token;
 
 #[derive(Debug, Clone, Serialize)]
-pub struct Node(pub Token, pub NodeKind);
+pub struct Node(pub Token, pub Kind);
 
 impl Node {
     // experimental
@@ -15,7 +15,7 @@ impl Node {
         self.0
     }
 
-    pub fn to_node_kind(self) -> NodeKind {
+    pub fn to_kind(self) -> Kind {
         self.1
     }
 }

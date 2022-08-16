@@ -2,7 +2,7 @@ use serde::Serialize;
 
 use super::super::iter_parsers::{iter_parsers, FnParser};
 use super::super::node::Node;
-use super::super::node_kind::NodeKind;
+use super::super::kind::Kind;
 use super::super::node_parser::NodeParser;
 use super::super::token::PointerContext;
 use super::super::utils::trim::trim_spaces_and_newline;
@@ -15,9 +15,9 @@ pub struct Document {
     pub nodes: Vec<Box<Node>>,
 }
 
-impl From<Document> for NodeKind {
+impl From<Document> for Kind {
     fn from(v: Document) -> Self {
-        NodeKind::Document(v)
+        Kind::Document(v)
     }
 }
 
@@ -54,7 +54,7 @@ impl NodeParser for DocumentParser {
 
         Ok(Node(
             pointer_context.create_token(start_pointer_context),
-            NodeKind::from(Document { nodes }),
+            Kind::from(Document { nodes }),
         ))
     }
 }

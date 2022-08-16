@@ -5,7 +5,7 @@ use super::super::utils::trim::trim_spaces;
 use super::literal::Literal;
 use crate::parser::error_kind::ErrorKind;
 use crate::parser::node::Node;
-use crate::parser::node_kind::NodeKind;
+use crate::parser::kind::Kind;
 use crate::parser::nodes::variable_link::VariableLinkParser;
 use crate::parser::token::PointerContext;
 use crate::parser::token::Token;
@@ -16,9 +16,9 @@ pub struct VariableTemplate {
     pub template: Vec<Node>,
 }
 
-impl From<VariableTemplate> for NodeKind {
+impl From<VariableTemplate> for Kind {
     fn from(v: VariableTemplate) -> Self {
-        NodeKind::VariableTemplate(v)
+        Kind::VariableTemplate(v)
     }
 }
 
@@ -54,7 +54,7 @@ impl NodeParser for VariableValueParser {
                     let v = token.slice_for(payload).to_vec();
                     template.push(Node(
                         token,
-                        NodeKind::from(Literal(String::from_utf8(v).unwrap())),
+                        Kind::from(Literal(String::from_utf8(v).unwrap())),
                     ));
 
                     let variable_value_parser = VariableLinkParser;
@@ -71,7 +71,7 @@ impl NodeParser for VariableValueParser {
                     let v = token.slice_for(payload).to_vec();
                     template.push(Node(
                         token,
-                        NodeKind::from(Literal(String::from_utf8(v).unwrap())),
+                        Kind::from(Literal(String::from_utf8(v).unwrap())),
                     ));
                     pointer_context.move_columns(1);
                     break;
@@ -89,7 +89,7 @@ impl NodeParser for VariableValueParser {
             Token {
                 span: pointer_context.create_span(start_pointer_context),
             },
-            NodeKind::from(VariableTemplate { template }),
+            Kind::from(VariableTemplate { template }),
         ))
     }
 }
