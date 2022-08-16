@@ -13,3 +13,4 @@ jobs:
           package-name: release-please-action
           release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
+          default-branch: development
