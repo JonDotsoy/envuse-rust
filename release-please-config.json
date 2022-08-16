@@ -1,6 +1,7 @@
 {
   "packages": {
     ".": {
+      "releaseType": "rust",
       "draft": false,
       "prerelease": true,
       "bumpMinorPreMajor": false,
