@@ -9,4 +9,5 @@ pub enum ErrorKind {
     UnexpectedToken(Token),
     #[deprecated]
     UnexpectedToken_deprecated,
+    UnknownErrorFragment,
 }
