@@ -16,3 +16,6 @@ test = true
 
 [dependencies]
 serde = { version = "1", features = ["derive"] }
+
+[dev-dependencies]
+insta = { version = "1.21.0", features = ["yaml", "serde"] }

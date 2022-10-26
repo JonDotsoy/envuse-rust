@@ -13,6 +13,7 @@ pub mod nodes;
 pub mod payload;
 pub mod token;
 pub mod utils;
+pub mod tokenizer;
 
 /// Parse source
 pub fn parse(payload: &[u8]) -> Result<Node, ErrorKind> {
