@@ -1,0 +1,14 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "keyword",
+        raw: "ABC123_32",
+        span: Span {
+            start: 0,
+            end: 9,
+        },
+    },
+]
