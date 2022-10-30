@@ -1,0 +1,43 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens)"
+---
+Document {
+    span: Span {
+        start: 0,
+        end: 46,
+    },
+    executable: None,
+    elements: [
+        Variable {
+            span: Span {
+                start: 35,
+                end: 46,
+            },
+            comment: Some(
+                CommentBlock {
+                    span: Span {
+                        start: 13,
+                        end: 22,
+                    },
+                    raw: [
+                        "# comment",
+                    ],
+                },
+            ),
+            name: "foo",
+            variable_type: Some(
+                "string",
+            ),
+            default_value: Some(
+                DefaultValue {
+                    span: Span {
+                        start: 50,
+                        end: 53,
+                    },
+                    value: "abc",
+                },
+            ),
+        },
+    ],
+}

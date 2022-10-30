@@ -1,0 +1,93 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens)"
+---
+Document {
+    span: Span {
+        start: 0,
+        end: 171,
+    },
+    executable: None,
+    elements: [
+        CommentBlock {
+            span: Span {
+                start: 13,
+                end: 59,
+            },
+            raw: [
+                "## Document comment",
+                "## second line",
+            ],
+        },
+        Variable {
+            span: Span {
+                start: 95,
+                end: 106,
+            },
+            comment: Some(
+                CommentBlock {
+                    span: Span {
+                        start: 73,
+                        end: 82,
+                    },
+                    raw: [
+                        "# comment",
+                    ],
+                },
+            ),
+            name: "foo",
+            variable_type: Some(
+                "string",
+            ),
+            default_value: Some(
+                DefaultValue {
+                    span: Span {
+                        start: 110,
+                        end: 113,
+                    },
+                    value: "abc",
+                },
+            ),
+        },
+        Variable {
+            span: Span {
+                start: 127,
+                end: 138,
+            },
+            comment: None,
+            name: "bax",
+            variable_type: Some(
+                "number",
+            ),
+            default_value: Some(
+                DefaultValue {
+                    span: Span {
+                        start: 142,
+                        end: 145,
+                    },
+                    value: "123",
+                },
+            ),
+        },
+        Variable {
+            span: Span {
+                start: 159,
+                end: 171,
+            },
+            comment: None,
+            name: "port",
+            variable_type: Some(
+                "number",
+            ),
+            default_value: Some(
+                DefaultValue {
+                    span: Span {
+                        start: 174,
+                        end: 179,
+                    },
+                    value: "3_000",
+                },
+            ),
+        },
+    ],
+}

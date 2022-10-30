@@ -121,7 +121,7 @@ mod tokenizer {
 
     #[test]
     fn tokenizer_spaces() {
-       let tokens = Tokenizer::parse("foo : string = asd\nvar : int = \"234\"");
-       assert_debug_snapshot!(tokens);
+        let tokens = Tokenizer::parse("foo : string = asd\nvar : int = \"234\"");
+        assert_debug_snapshot!(tokens);
     }
 }

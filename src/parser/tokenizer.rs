@@ -3,7 +3,7 @@ use std::{
     usize, vec,
 };
 
-#[derive(Debug)]
+#[derive(Debug,Clone)]
 pub struct Span {
     pub start: usize,
     pub end: usize,
