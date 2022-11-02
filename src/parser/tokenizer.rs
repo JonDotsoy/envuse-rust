@@ -3,7 +3,9 @@ use std::{
     usize, vec,
 };
 
-#[derive(Debug,Clone)]
+use serde::Serialize;
+
+#[derive(Debug,Clone,Serialize)]
 pub struct Span {
     pub start: usize,
     pub end: usize,

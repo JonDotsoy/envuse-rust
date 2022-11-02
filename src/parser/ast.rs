@@ -1,9 +1,11 @@
+use serde::Serialize;
+
 use super::tokenizer::{Span, Token};
 
 /// Expression
 ///
 /// Used
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub enum Expression {
     Document {
         span: Span,
