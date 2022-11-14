@@ -1,8 +1,11 @@
 #[cfg(test)]
 mod tokenizer {
-    use envuse_parser::parser::tokenizer::Tokenizer;
+    use envuse_parser::{
+        parser::tokenizer::{Token, Tokenizer},
+        syntax_error::SyntaxError,
+    };
     use insta::assert_debug_snapshot;
-    use std::dbg;
+    use std::{any::Any, dbg, panic::UnwindSafe};
 
     #[test]
     fn tokenizer_comment() {
@@ -101,22 +104,26 @@ mod tokenizer {
         Tokenizer::parse("1_23").unwrap();
         Tokenizer::parse("1_23.23").unwrap();
 
-        assert!(std::panic::catch_unwind(|| {
-            Tokenizer::parse("12__23").unwrap();
-        })
-        .is_err());
-        assert!(std::panic::catch_unwind(|| {
-            Tokenizer::parse("12_").unwrap();
-        })
-        .is_err());
-        assert!(std::panic::catch_unwind(|| {
-            Tokenizer::parse("12_3._").unwrap();
-        })
-        .is_err());
-        assert!(std::panic::catch_unwind(|| {
-            Tokenizer::parse("12_3.3_3.1").unwrap();
-        })
-        .is_err());
+        fn syntax_error_contains<T: ToString, F: FnOnce() -> Result<Vec<Token>, SyntaxError>>(
+            f: F,
+            pat: T,
+        ) {
+            let recive = f().err().unwrap().message;
+            let c = recive.contains(pat.to_string().as_str());
+            assert!(c, "Expected: {}\nRecive: {}", pat.to_string(), recive);
+        }
+
+        syntax_error_contains(
+            || Tokenizer::parse("12__23"),
+            "Only one undesrcore is allowed as numeric separator",
+        );
+        syntax_error_contains(
+            || Tokenizer::parse("12_"),
+            "Only one undesrcore is allowed as numeric separator",
+        );
+        syntax_error_contains(|| Tokenizer::parse("12_3._"), "Invalid or unexpected token");
+        syntax_error_contains(|| Tokenizer::parse("12_3._"), "Invalid or unexpected token");
+        syntax_error_contains(|| Tokenizer::parse("12_3.3_3.1"), "Unexpected token");
     }
 
     #[test]

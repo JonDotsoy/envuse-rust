@@ -1,24 +1,17 @@
 use std::{ops::RangeBounds, usize, vec};
 
-use serde::Serialize;
-
+use super::span::{self, Span};
 use crate::syntax_error::SyntaxError;
-
-#[derive(Debug, Clone, Serialize)]
-pub struct Span {
-    pub start: usize,
-    pub end: usize,
-}
 
 #[derive(Debug)]
 pub struct Token {
     pub kind: String,
     pub raw: String,
-    pub span: Span,
+    pub span: span::Span,
 }
 
 impl Token {
-    fn new<A: ToString>(kind: A, cursor: &Cursor, span: Span) -> Self {
+    fn new<A: ToString>(kind: A, cursor: &Cursor, span: span::Span) -> Self {
         Self {
             kind: kind.to_string(),
             raw: cursor.get_by_span(&span),
@@ -85,7 +78,7 @@ impl Cursor {
         self.index = self.index + positions;
     }
 
-    fn get_by_span(&self, span: &Span) -> String {
+    fn get_by_span(&self, span: &span::Span) -> String {
         unsafe { self.payload.get_unchecked(span.start..span.end).to_string() }
     }
 
@@ -211,7 +204,7 @@ impl Tokenizer {
             }
         }
 
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -223,7 +216,7 @@ impl Tokenizer {
         cursor.current_char_expected('\n');
         let span_start = cursor.index;
         cursor.forward(1);
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -241,7 +234,7 @@ impl Tokenizer {
             }
             break;
         }
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -253,7 +246,7 @@ impl Tokenizer {
         cursor.current_char_expected('=');
         let span_start = cursor.index;
         cursor.forward(1);
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -265,7 +258,7 @@ impl Tokenizer {
         cursor.current_char_expected(':');
         let span_start = cursor.index;
         cursor.forward(1);
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -291,7 +284,7 @@ impl Tokenizer {
 
         cursor.current_char_expected('"');
 
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -312,7 +305,7 @@ impl Tokenizer {
             cursor.forward(1);
         }
 
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };
@@ -332,17 +325,35 @@ impl Tokenizer {
             }
             if cursor.current_matches_char('_') {
                 if !cursor.next_matches_range_char(&vec!['0'..='9']) {
-                    todo!("Only one undesrcore is allowed as numeric separator");
+                    return Err(SyntaxError::new(
+                        "Only one undesrcore is allowed as numeric separator",
+                        Span {
+                            start: span_start,
+                            end: cursor.index,
+                        },
+                    ));
                 }
                 cursor.forward(1);
                 continue;
             }
             if cursor.current_matches_char('.') {
                 if decimal {
-                    todo!("Unexpected number");
+                    return Err(SyntaxError::new(
+                        "Unexpected token",
+                        Span {
+                            start: span_start,
+                            end: cursor.index,
+                        },
+                    ));
                 }
                 if !cursor.next_matches_range_char(&vec!['0'..='9']) {
-                    todo!("Invalid or unexpected token");
+                    return Err(SyntaxError::new(
+                        "Invalid or unexpected token",
+                        Span {
+                            start: span_start,
+                            end: cursor.index,
+                        },
+                    ));
                 }
                 decimal = true;
                 cursor.forward(1);
@@ -351,7 +362,7 @@ impl Tokenizer {
             break;
         }
 
-        let span = Span {
+        let span = span::Span {
             start: span_start,
             end: cursor.index,
         };

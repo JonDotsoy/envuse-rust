@@ -1,6 +1,6 @@
 use serde::Serialize;
 
-use super::tokenizer::{Span, Token};
+use super::{tokenizer::Token, span::Span};
 
 /// Expression
 ///
