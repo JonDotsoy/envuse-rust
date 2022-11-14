@@ -36,7 +36,6 @@ impl Expression {
             Expression::CommentBlock { span, .. } => span.clone(),
             Expression::Variable { span, .. } => span.clone(),
             Expression::DefaultValue { span, .. } => span.clone(),
-            _ => panic!(),
         }
     }
 }
@@ -120,7 +119,6 @@ impl AST {
 
     fn parse_items(tokens_cursor: &mut Cursor<Vec<Token>>) -> Vec<Expression> {
         let mut vec: Vec<Expression> = vec![];
-        let mut block_comment: Option<Expression> = None;
 
         while let Some(token) = tokens_cursor.select_current() {
             if token.kind == "newline" || token.kind == "space" {
