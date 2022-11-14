@@ -1,0 +1,22 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "keyword",
+        raw: "String",
+        span: Span {
+            start: 0,
+            end: 6,
+        },
+    },
+    Token {
+        kind: "question_mark",
+        raw: "?",
+        span: Span {
+            start: 6,
+            end: 7,
+        },
+    },
+]

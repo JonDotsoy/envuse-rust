@@ -131,4 +131,22 @@ mod tokenizer {
         let tokens = Tokenizer::parse("foo : string = asd\nvar : int = \"234\"").unwrap();
         assert_debug_snapshot!(tokens);
     }
+
+    #[test]
+    fn tokenizer_type_with_optional_variable() {
+        let tokens = Tokenizer::parse("String?").unwrap();
+        assert_debug_snapshot!(tokens);
+    }
+
+    #[test]
+    fn tokenizer_type_with_options() {
+        let tokens = Tokenizer::parse("String<Min=2 Max=10>").unwrap();
+        assert_debug_snapshot!(tokens);
+    }
+
+    #[test]
+    fn tokenizer_unexpected_token_error() {
+        let err = Tokenizer::parse("/").err();
+        assert_debug_snapshot!(err);
+    }
 }

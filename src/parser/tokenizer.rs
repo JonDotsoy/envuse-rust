@@ -184,10 +184,31 @@ impl Tokenizer {
                 continue;
             }
 
-            dbg!(&cursor);
-            dbg!(&cursor.current_char());
-            dbg!(&tokens);
-            todo!();
+            if cursor.current_matches_range_char(&vec!['?'..='?']) {
+                tokens.extend(Self::parse_question_mark(cursor)?);
+                continue;
+            }
+
+            if cursor.current_matches_range_char(&vec!['<'..='<']) {
+                tokens.extend(Self::parse_less_than(cursor)?);
+                continue;
+            }
+
+            if cursor.current_matches_range_char(&vec!['>'..='>']) {
+                tokens.extend(Self::parse_greater_than(cursor)?);
+                continue;
+            }
+
+            // dbg!(&cursor);
+            // dbg!(&cursor.current_char());
+            // dbg!(&tokens);
+            return Err(SyntaxError::new(
+                "Unexpected token",
+                Span {
+                    start: cursor.index,
+                    end: cursor.index + 1,
+                },
+            ));
         }
 
         Ok(tokens)
@@ -263,6 +284,42 @@ impl Tokenizer {
             end: cursor.index,
         };
         let newline_token = Token::new("colon", &cursor, span);
+        Ok(vec![newline_token])
+    }
+
+    fn parse_question_mark(cursor: &mut Cursor) -> Result<Vec<Token>, SyntaxError> {
+        cursor.current_char_expected('?');
+        let span_start = cursor.index;
+        cursor.forward(1);
+        let span = span::Span {
+            start: span_start,
+            end: cursor.index,
+        };
+        let newline_token = Token::new("question_mark", &cursor, span);
+        Ok(vec![newline_token])
+    }
+
+    fn parse_less_than(cursor: &mut Cursor) -> Result<Vec<Token>, SyntaxError> {
+        cursor.current_char_expected('<');
+        let span_start = cursor.index;
+        cursor.forward(1);
+        let span = span::Span {
+            start: span_start,
+            end: cursor.index,
+        };
+        let newline_token = Token::new("less_than", &cursor, span);
+        Ok(vec![newline_token])
+    }
+
+    fn parse_greater_than(cursor: &mut Cursor) -> Result<Vec<Token>, SyntaxError> {
+        cursor.current_char_expected('>');
+        let span_start = cursor.index;
+        cursor.forward(1);
+        let span = span::Span {
+            start: span_start,
+            end: cursor.index,
+        };
+        let newline_token = Token::new("greater_than", &cursor, span);
         Ok(vec![newline_token])
     }
 
