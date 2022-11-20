@@ -77,6 +77,15 @@ mod ast_test {
     }
 
     #[test]
+    fn parse_variables_as_nullable() {
+        let payload = "
+            FOO: String<Foo Biz> ?
+        ";
+        let tokens = Tokenizer::parse(payload).unwrap();
+        assert_debug_snapshot!(AST::parse(tokens).unwrap());
+    }
+
+    #[test]
     fn parse_variable_with_default_value() {
         let payload = r#"foo = "abc""#;
         let tokens = Tokenizer::parse(payload).unwrap();

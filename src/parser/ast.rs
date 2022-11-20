@@ -27,6 +27,7 @@ pub enum Expression {
         variable_type: Option<String>,
         options_variable_type: Option<BTreeMap<String, Option<Expression>>>,
         default_value: Box<Option<Expression>>,
+        nullable: bool,
     },
     DefaultValue {
         span: Span,
@@ -248,6 +249,7 @@ impl AST {
         let mut variable_type: Option<String> = None;
         let mut options_variable_type: Option<BTreeMap<String, Option<Expression>>> = None;
         let mut default_value: Option<Expression> = None;
+        let mut nullable: bool = false;
         tokens_cursor.forward(1);
 
         tokens_cursor.forward_some_kind(["space"]);
@@ -289,6 +291,14 @@ impl AST {
                 tokens_cursor.forward(1);
 
                 options_variable_type = Some(options);
+
+                tokens_cursor.forward_some_kind(["space"]);
+            }
+
+            if let Ok(token) = tokens_cursor.assert_current_kind(["question_mark"]) {
+                span_end = token.span.end;
+                tokens_cursor.forward(1);
+                nullable = true;
             }
         }
 
@@ -310,6 +320,7 @@ impl AST {
             variable_type,
             options_variable_type,
             default_value: Box::new(default_value),
+            nullable,
         })
     }
 
