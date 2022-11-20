@@ -5,7 +5,7 @@ mod tokenizer {
         syntax_error::SyntaxError,
     };
     use insta::assert_debug_snapshot;
-    use std::{any::Any, dbg, panic::UnwindSafe};
+    use std::dbg;
 
     #[test]
     fn tokenizer_comment() {
