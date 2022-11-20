@@ -1,6 +1,8 @@
 use serde::Serialize;
 
-use super::{tokenizer::Token, span::Span};
+use crate::syntax_error::SyntaxError;
+
+use super::{span::Span, tokenizer::Token};
 
 /// Expression
 ///
@@ -86,7 +88,7 @@ where
 pub struct AST {}
 
 impl AST {
-    pub fn parse(tokens: Vec<Token>) -> Expression {
+    pub fn parse(tokens: Vec<Token>) -> Result<Expression, SyntaxError> {
         let mut executable: Option<String> = None;
         let ref mut token_cursor = Cursor::new(tokens);
         let mut span_start: usize = 0;
@@ -101,23 +103,23 @@ impl AST {
             }
         }
 
-        let elements = Self::parse_items(token_cursor);
+        let elements = Self::parse_items(token_cursor)?;
 
         if let Some(expression) = elements.last() {
             span_end = expression.to_span().end;
         }
 
-        Expression::Document {
+        Ok(Expression::Document {
             executable,
             elements,
             span: Span {
                 start: span_start,
                 end: span_end,
             },
-        }
+        })
     }
 
-    fn parse_items(tokens_cursor: &mut Cursor<Vec<Token>>) -> Vec<Expression> {
+    fn parse_items(tokens_cursor: &mut Cursor<Vec<Token>>) -> Result<Vec<Expression>, SyntaxError> {
         let mut vec: Vec<Expression> = vec![];
 
         while let Some(token) = tokens_cursor.select_current() {
@@ -126,11 +128,11 @@ impl AST {
                 continue;
             }
             if token.kind == "comment" {
-                vec.push(Self::parse_items_block_comment(tokens_cursor));
+                vec.push(Self::parse_items_block_comment(tokens_cursor)?);
                 continue;
             }
             if token.kind == "keyword" {
-                vec.push(Self::parse_items_variable(tokens_cursor, None));
+                vec.push(Self::parse_items_variable(tokens_cursor, None)?);
                 continue;
             }
             // tokens_cursor.forward(1);
@@ -138,10 +140,12 @@ impl AST {
             todo!("Unexpected type")
         }
 
-        vec
+        Ok(vec)
     }
 
-    fn parse_items_block_comment(tokens_cursor: &mut Cursor<Vec<Token>>) -> Expression {
+    fn parse_items_block_comment(
+        tokens_cursor: &mut Cursor<Vec<Token>>,
+    ) -> Result<Expression, SyntaxError> {
         let span_start = tokens_cursor.select_current().unwrap().span.start;
         let mut span_end = tokens_cursor.select_current().unwrap().span.end;
         let mut raw: Vec<String> = vec![];
@@ -178,17 +182,17 @@ impl AST {
 
         if let Some(token) = tokens_cursor.select_current() {
             if token.kind == "keyword" {
-                return Self::parse_items_variable(tokens_cursor, Some(comment));
+                return Ok(Self::parse_items_variable(tokens_cursor, Some(comment))?);
             }
         }
 
-        comment
+        Ok(comment)
     }
 
     fn parse_items_variable(
         tokens_cursor: &mut Cursor<Vec<Token>>,
         comment: Option<Expression>,
-    ) -> Expression {
+    ) -> Result<Expression, SyntaxError> {
         let name: String = tokens_cursor.select_current().unwrap().raw.to_string();
         let span_start = tokens_cursor.select_current().unwrap().span.start;
         let mut span_end = tokens_cursor.select_current().unwrap().span.end;
@@ -232,6 +236,7 @@ impl AST {
                     // dbg!(tokens_cursor.select_nexts(forward_steps));
                     // tokens_cursor.forward(1);
                     // todo!();
+                    return Err(SyntaxError::new("Unexpected token", token.span.clone()));
                 }
             }
 
@@ -243,15 +248,16 @@ impl AST {
                     }
                 }
                 tokens_cursor.forward(forward_steps);
-                default_value = Some(Self::parse_items_default_value(tokens_cursor));
+                default_value = Some(Self::parse_items_default_value(tokens_cursor)?);
                 continue;
             }
 
-            dbg!(token);
-            todo!()
+            // dbg!(token);
+            // todo!()
+            return Err(SyntaxError::new("Unexpected token", token.span.clone()));
         }
 
-        Expression::Variable {
+        Ok(Expression::Variable {
             span: Span {
                 start: span_start,
                 end: span_end,
@@ -260,16 +266,18 @@ impl AST {
             name: name,
             variable_type,
             default_value: Box::new(default_value),
-        }
+        })
     }
 
-    fn parse_items_default_value(tokens_cursor: &mut Cursor<Vec<Token>>) -> Expression {
+    fn parse_items_default_value(
+        tokens_cursor: &mut Cursor<Vec<Token>>,
+    ) -> Result<Expression, SyntaxError> {
         match tokens_cursor.select_current() {
             Some(token) if token.kind == "string" => {
-                Self::parse_items_default_value_string(tokens_cursor)
+                Ok(Self::parse_items_default_value_string(tokens_cursor)?)
             }
             Some(token) if token.kind == "number" => {
-                Self::parse_items_default_value_number(tokens_cursor)
+                Ok(Self::parse_items_default_value_number(tokens_cursor)?)
             }
             _ => {
                 panic!("Unexpected token");
@@ -277,23 +285,27 @@ impl AST {
         }
     }
 
-    fn parse_items_default_value_string(tokens_cursor: &mut Cursor<Vec<Token>>) -> Expression {
+    fn parse_items_default_value_string(
+        tokens_cursor: &mut Cursor<Vec<Token>>,
+    ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
         let a = Expression::DefaultValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
         };
         tokens_cursor.forward(1);
-        return a;
+        return Ok(a);
     }
 
-    fn parse_items_default_value_number(tokens_cursor: &mut Cursor<Vec<Token>>) -> Expression {
+    fn parse_items_default_value_number(
+        tokens_cursor: &mut Cursor<Vec<Token>>,
+    ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
         let a = Expression::DefaultValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
         };
         tokens_cursor.forward(1);
-        return a;
+        return Ok(a);
     }
 }

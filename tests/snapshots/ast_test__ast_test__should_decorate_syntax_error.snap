@@ -1,0 +1,9 @@
+---
+source: tests/ast_test.rs
+expression: "SyntaxError::new(\"fail\",\n        Span { start: 14, end: 17 }).debug_payload_full(&payload)"
+---
+SyntaxError: fail
+
+>    2 | FOO: String<Max=500>
+         ▀▀▀
+
