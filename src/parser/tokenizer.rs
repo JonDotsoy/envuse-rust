@@ -3,7 +3,7 @@ use std::{ops::RangeBounds, usize, vec};
 use super::span::{self, Span};
 use crate::syntax_error::SyntaxError;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Token {
     pub kind: String,
     pub raw: String,

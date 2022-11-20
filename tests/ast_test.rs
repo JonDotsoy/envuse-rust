@@ -4,7 +4,7 @@ mod ast_test {
     use envuse_parser::parser::span::Span;
     use envuse_parser::parser::tokenizer::Tokenizer;
     use envuse_parser::syntax_error::SyntaxError;
-    use insta::{assert_debug_snapshot, assert_snapshot};
+    use insta::{assert_debug_snapshot, assert_snapshot, assert_yaml_snapshot};
 
     #[test]
     fn parse_executable() {
@@ -160,33 +160,36 @@ mod ast_test {
     #[test]
     fn parse_sample_document_with_type_configurable() {
         let payload = r#"
-            FOO: String<Max=500>
-            BIZ: String<Max=500 Min=2>
+            FOO : String<Max=500>
+            BIZ : String<Max=500 Min=2>
         "#;
 
-        SyntaxError::helper_decorate_lines(&payload);
-
         let tokens = Tokenizer::parse(payload).unwrap();
-        assert_debug_snapshot!(AST::parse(tokens).err().unwrap().debug_payload(&payload));
+        assert_yaml_snapshot!(AST::parse(tokens).unwrap());
+        let tokens = Tokenizer::parse(payload).unwrap();
+        assert_debug_snapshot!(AST::parse(tokens).unwrap());
     }
 
     #[test]
-    fn parse_sample_document_with_type_configurable_2() {
+    fn parse_sample_document_with_type_configurable_binary_option() {
         let payload = r#"
-            FOO: String<Max=500>
-            BIZ: String<Max=500 Min=2>
+            FOO : String<Max=500 Sensitive>
+            BIZ : String<Max=500 Min=2>
         "#;
 
-        SyntaxError::helper_decorate_lines(&payload);
-
         let tokens = Tokenizer::parse(payload).unwrap();
-        assert_debug_snapshot!(AST::parse(tokens).err().unwrap().debug_payload(&payload));
+        assert_yaml_snapshot!(AST::parse(tokens).unwrap());
+        let tokens = Tokenizer::parse(payload).unwrap();
+        assert_debug_snapshot!(AST::parse(tokens).unwrap());
     }
 
     #[test]
-    fn parse_sample_document_with_type_configurable_3() {
+    fn parse_sample_document_with_type_configurable_multiline() {
         let payload = r#"
-            FOO: String<Max=500 Min=2>
+            FOO : String<
+                    Max = 500
+                    Min = 2
+                  >
         "#;
 
         let tokens = Tokenizer::parse(payload).unwrap();

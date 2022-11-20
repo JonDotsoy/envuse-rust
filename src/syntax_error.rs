@@ -33,6 +33,11 @@ pub struct SyntaxError {
     pub span: Span,
 }
 
+pub trait ErrorWithSpan {
+    fn get_message(&self) -> Span;
+    fn get_span(&self) -> Span;
+}
+
 impl SyntaxError {
     pub fn new<T: ToString>(message: T, span: Span) -> Self {
         Self {
@@ -41,7 +46,7 @@ impl SyntaxError {
         }
     }
 
-    pub fn helper_decorate_lines<T: ToString>(payload: &T) -> Vec<Line> {
+    pub fn helper_create_lines<T: ToString>(payload: &T) -> Vec<Line> {
         let mut lines: Vec<Line> = vec![];
         let mut current_line = Line {
             line: 1,
@@ -74,12 +79,16 @@ impl SyntaxError {
         Self::debug_payload_configurable(&self, payload, &Default::default())
     }
 
-    pub fn debug_payload_configurable<T: ToString>(&self, payload: &T, options: &DebugOptions) -> String {
+    pub fn debug_payload_configurable<T: ToString>(
+        &self,
+        payload: &T,
+        options: &DebugOptions,
+    ) -> String {
         let mut buff = String::new();
         buff.push_str(format!("SyntaxError: {}\n", self.message).as_str());
         buff.push('\n');
         // dbg!(&self.span);
-        for line in Self::helper_decorate_lines(payload) {
+        for line in Self::helper_create_lines(payload) {
             let err_start_inline =
                 self.span.start >= line.span.start && self.span.start <= line.span.end;
             let err_end_inline = self.span.end >= line.span.start && self.span.end <= line.span.end;
@@ -124,7 +133,9 @@ impl SyntaxError {
                 }
             };
 
-            if options.print_underscore_error && (err_start_inline || err_end_inline || err_cover_line) {
+            if options.print_underscore_error
+                && (err_start_inline || err_end_inline || err_cover_line)
+            {
                 buff.push_str(
                     format!(
                         "{}{}\n",

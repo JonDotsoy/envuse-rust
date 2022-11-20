@@ -1,11 +1,11 @@
 ---
 source: tests/ast_test.rs
-expression: "AST::parse(tokens)"
+expression: "AST::parse(tokens).unwrap()"
 ---
 Document {
     span: Span {
         start: 0,
-        end: 171,
+        end: 179,
     },
     executable: None,
     elements: [
@@ -22,7 +22,7 @@ Document {
         Variable {
             span: Span {
                 start: 95,
-                end: 106,
+                end: 113,
             },
             comment: Some(
                 CommentBlock {
@@ -52,7 +52,7 @@ Document {
         Variable {
             span: Span {
                 start: 127,
-                end: 138,
+                end: 145,
             },
             comment: None,
             name: "bax",
@@ -72,7 +72,7 @@ Document {
         Variable {
             span: Span {
                 start: 159,
-                end: 171,
+                end: 179,
             },
             comment: None,
             name: "port",
