@@ -33,6 +33,7 @@ Document {
                 },
             ),
             default_value: None,
+            nullable: false,
         },
         Variable {
             span: Span {
@@ -67,6 +68,7 @@ Document {
                 },
             ),
             default_value: None,
+            nullable: false,
         },
     ],
 }

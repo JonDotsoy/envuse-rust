@@ -19,6 +19,7 @@ Document {
             variable_type: Some(
                 "number",
             ),
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -28,6 +29,7 @@ Document {
                     value: "3000",
                 },
             ),
+            nullable: false,
         },
     ],
 }

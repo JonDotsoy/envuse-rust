@@ -1,0 +1,10 @@
+---
+source: tests/envuse_test.rs
+expression: program.get_message()
+---
+SyntaxError: Unexpected type
+
+>    1 | FOO "biz"
+              ▀▀▀
+    at <unknown>:1:6
+

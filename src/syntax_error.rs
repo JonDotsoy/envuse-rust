@@ -1,8 +1,9 @@
 use crate::parser::span::Span;
 
 pub struct DebugOptions {
-    print_full: bool,
-    print_underscore_error: bool,
+    pub location: Option<String>,
+    pub print_full: bool,
+    pub print_underscore_error: bool,
 }
 
 impl DebugOptions {
@@ -10,6 +11,7 @@ impl DebugOptions {
         Self {
             print_full: false,
             print_underscore_error: true,
+            location: None,
         }
     }
 }
@@ -85,8 +87,10 @@ impl SyntaxError {
         options: &DebugOptions,
     ) -> String {
         let mut buff = String::new();
+        let mut at_line_pos: Option<String> = None;
         buff.push_str(format!("SyntaxError: {}\n", self.message).as_str());
         buff.push('\n');
+
         // dbg!(&self.span);
         for line in Self::helper_create_lines(payload) {
             let err_start_inline =
@@ -140,11 +144,28 @@ impl SyntaxError {
                     format!(
                         "{}{}\n",
                         " ".repeat(9 + err_subline_start),
-                        "▀".repeat(err_subline_end - err_subline_start)
+                        "▀".repeat((err_subline_end - err_subline_start))
                     )
                     .as_str(),
                 )
             }
+
+            if at_line_pos.is_none() && (err_start_inline || err_end_inline || err_cover_line) {
+                at_line_pos = Some(format!(
+                    "{}:{}",
+                    // options.location.clone().unwrap(),
+                    line.line,
+                    err_subline_start + 1
+                ))
+            }
+        }
+
+        if let Some(pos) = at_line_pos {
+            buff.push_str(&format!(
+                "    at {}:{}\n",
+                options.location.clone().unwrap_or("<unknown>".to_string()),
+                pos,
+            ))
         }
 
         buff

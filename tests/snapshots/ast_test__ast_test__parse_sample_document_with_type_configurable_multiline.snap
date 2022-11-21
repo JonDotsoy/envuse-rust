@@ -42,6 +42,7 @@ Document {
                 },
             ),
             default_value: None,
+            nullable: false,
         },
     ],
 }

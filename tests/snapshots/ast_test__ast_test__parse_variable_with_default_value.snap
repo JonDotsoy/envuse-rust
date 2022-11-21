@@ -17,6 +17,7 @@ Document {
             comment: None,
             name: "foo",
             variable_type: None,
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -26,6 +27,7 @@ Document {
                     value: "abc",
                 },
             ),
+            nullable: false,
         },
     ],
 }

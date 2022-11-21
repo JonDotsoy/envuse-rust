@@ -1,5 +1,6 @@
 # Envuse Parser
 
-Parser a envuse file.
+Parser to Envuse files.
+
 
 LICENSE MIT

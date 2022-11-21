@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use serde::Serialize;
+use serde::{Serialize, Deserialize};
 
 use crate::syntax_error::SyntaxError;
 
@@ -9,7 +9,7 @@ use super::{span::Span, tokenizer::Token};
 /// Expression
 ///
 /// Used
-#[derive(Debug, Serialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub enum Expression {
     Document {
         span: Span,
@@ -182,9 +182,7 @@ impl AST {
                 vec.push(Self::parse_variable(tokens_cursor, None)?);
                 continue;
             }
-            // tokens_cursor.forward(1);
-            dbg!(token);
-            todo!("Unexpected type")
+            return Err(SyntaxError::new("Unexpected type", token.span.clone()));
         }
 
         Ok(vec)

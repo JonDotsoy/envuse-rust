@@ -23,6 +23,7 @@ Document:
                 end: 33
               value: "500"
         default_value: ~
+        nullable: false
     - Variable:
         span:
           start: 47
@@ -44,4 +45,5 @@ Document:
                 end: 73
               value: "2"
         default_value: ~
+        nullable: false
 

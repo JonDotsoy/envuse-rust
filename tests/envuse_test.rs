@@ -1,23 +1,75 @@
 #[cfg(test)]
 mod envuse_test {
-    use envuse_parser::envuse::{Envuse, ParseOptions};
     use std::collections::BTreeMap;
 
+    use envuse_parser::envuse::create_program;
+    use insta::{assert_debug_snapshot, assert_snapshot};
+
     #[test]
-    fn should_compile() {
-        let result = Envuse::compile(ParseOptions {
-            source: String::from(r#"
-                FOO:String
-                PORT:Number=3000
-                MONGO_DB:String<Format="URL">
-                FORCE_SSL:Boolean?
-            "#),
-            environment_values: BTreeMap::from([
-                ("FOO", "BIZ"),
-                ("PORT", "5000"),
-            ]),
-        });
+    fn should_catch_program_error() {
+        let program = create_program(r#"FOO "biz""#, None).err().unwrap();
+
+        assert_debug_snapshot!(program);
+        assert_snapshot!(program.get_message());
     }
 
-    fn should_create_dts_compiler() {}
+    #[test]
+    fn should_catch_program_error_to_js() {
+        let error = create_program("\n\n\tFOO 123", Some("/app/.envuse"))
+            .err()
+            .unwrap();
+        assert_snapshot!(error.get_message());
+
+        let error = create_program("\n\n\tFOO 123", None).err().unwrap();
+        assert_snapshot!(error.get_message());
+    }
+
+    #[test]
+    fn should_create_program() {
+        let program = create_program(r#"FOO="biz""#, None).unwrap();
+
+        assert_debug_snapshot!(program);
+    }
+
+    #[test]
+    fn should_use_of_parse_must_not_break_with_different_syntax() {
+        let program = create_program(r#"FOO="biz""#, None).unwrap();
+
+        program.parse(BTreeMap::from([
+            (String::from("AAA"), None),
+            (String::from("FOO"), Some(String::from(""))),
+            (String::from("JUM"), None),
+            (String::from("TAZ"), None),
+        ]));
+
+        program.parse([("AAA", ""), ("FOO", ""), ("JUM", ""), ("TAZ", "")]);
+
+        program.parse([
+            ("AAA", None),
+            ("FOO", Some("")),
+            ("JUM", None),
+            ("TAZ", None),
+        ]);
+    }
+
+    #[test]
+    fn should_parse_an_string_value() {
+        let program = create_program(r#"FOO="biz""#, None).unwrap();
+
+        assert_debug_snapshot!(program.parse([("FOO", "BAR")]));
+    }
+
+    #[test]
+    fn should_parse_an_number_value() {
+        let program = create_program(r#"FOO:Number"#, None).unwrap();
+
+        assert_debug_snapshot!(program.parse([("FOO", "30_000")]));
+    }
+
+    #[test]
+    fn should_parse_an_boolean_value() {
+        let program = create_program(r#"FOO:Boolean"#, None).unwrap();
+
+        assert_debug_snapshot!(program.parse([("FOO", "true")]));
+    }
 }

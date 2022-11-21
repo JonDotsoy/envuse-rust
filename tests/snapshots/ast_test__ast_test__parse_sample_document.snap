@@ -39,6 +39,7 @@ Document {
             variable_type: Some(
                 "string",
             ),
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -48,6 +49,7 @@ Document {
                     value: "abc",
                 },
             ),
+            nullable: false,
         },
         Variable {
             span: Span {
@@ -59,6 +61,7 @@ Document {
             variable_type: Some(
                 "number",
             ),
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -68,6 +71,7 @@ Document {
                     value: "123",
                 },
             ),
+            nullable: false,
         },
         Variable {
             span: Span {
@@ -79,6 +83,7 @@ Document {
             variable_type: Some(
                 "number",
             ),
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -88,6 +93,7 @@ Document {
                     value: "3_000",
                 },
             ),
+            nullable: false,
         },
     ],
 }

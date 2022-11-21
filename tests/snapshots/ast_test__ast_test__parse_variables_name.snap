@@ -1,6 +1,6 @@
 ---
 source: tests/ast_test.rs
-expression: "AST::parse(tokens)"
+expression: "AST::parse(tokens).unwrap()"
 ---
 Document {
     span: Span {
@@ -17,7 +17,9 @@ Document {
             comment: None,
             name: "foo",
             variable_type: None,
+            options_variable_type: None,
             default_value: None,
+            nullable: false,
         },
     ],
 }

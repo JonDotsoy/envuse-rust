@@ -1,0 +1,24 @@
+---
+source: tests/envuse_test.rs
+expression: program
+---
+ProgramError {
+    message: "SyntaxError: Unexpected type",
+    span: Some(
+        Span {
+            start: 5,
+            end: 8,
+        },
+    ),
+    source: "FOO \"biz\"",
+    location: None,
+    cause: Some(
+        SyntaxError {
+            message: "Unexpected type",
+            span: Span {
+                start: 5,
+                end: 8,
+            },
+        },
+    ),
+}

@@ -29,6 +29,7 @@ Document {
             variable_type: Some(
                 "string",
             ),
+            options_variable_type: None,
             default_value: Some(
                 DefaultValue {
                     span: Span {
@@ -38,6 +39,7 @@ Document {
                     value: "abc",
                 },
             ),
+            nullable: false,
         },
     ],
 }
