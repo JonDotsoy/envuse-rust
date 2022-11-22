@@ -144,7 +144,7 @@ impl SyntaxError {
                     format!(
                         "{}{}\n",
                         " ".repeat(9 + err_subline_start),
-                        "▀".repeat((err_subline_end - err_subline_start))
+                        "▀".repeat(err_subline_end - err_subline_start)
                     )
                     .as_str(),
                 )
