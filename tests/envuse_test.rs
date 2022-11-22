@@ -4,6 +4,7 @@ mod envuse_test {
 
     use envuse_parser::envuse::create_program;
     use insta::{assert_debug_snapshot, assert_snapshot};
+    use wasm_bindgen::UnwrapThrowExt;
 
     #[test]
     fn should_catch_program_error() {
@@ -71,5 +72,30 @@ mod envuse_test {
         let program = create_program(r#"FOO:Boolean"#, None).unwrap();
 
         assert_debug_snapshot!(program.parse([("FOO", "true")]));
+    }
+
+    #[test]
+    fn should_parse_an_null_value() {
+        let program = create_program(r#"FOO: String?"#, None).unwrap();
+
+        assert_debug_snapshot!(program.parse([("BAR", "true")]));
+    }
+
+    #[test]
+    fn should_read_the_default_values() {
+        let program = create_program(r#"FOO: String = "Biz""#, None)
+            .map_err(|e| panic!("{}", e.get_message()))
+            .unwrap();
+
+        assert_debug_snapshot!(program.parse([("BAR", "true")]));
+    }
+
+    #[test]
+    fn should_read_the_default_values_2() {
+        let program = create_program(r#"FOO = "Biz""#, None)
+            .map_err(|e| panic!("{}", e.get_message()))
+            .unwrap();
+
+        assert_debug_snapshot!(program.parse([("BAR", "true")]));
     }
 }

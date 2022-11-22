@@ -1,7 +1,7 @@
 #[cfg(feature = "with-js")]
 use js_sys::SyntaxError as JSSyntaxError;
 use serde::{Deserialize, Serialize};
-use std::{collections::BTreeMap, ptr::null};
+use std::collections::BTreeMap;
 #[cfg(feature = "with-js")]
 use wasm_bindgen::JsValue;
 
@@ -20,7 +20,7 @@ trait Parser {
         options_variable_type: &Option<BTreeMap<String, Option<Expression>>>,
         default_value: &Box<Option<Expression>>,
         nullable: &bool,
-        inten_value: &Option<String>,
+        intent_value: &Option<String>,
     ) -> ParsedValue;
 }
 
@@ -28,20 +28,24 @@ impl Parser for ParsedValue {
     fn to_parsed_value(
         name: &String,
         variable_type: &Option<String>,
-        options_variable_type: &Option<BTreeMap<String, Option<Expression>>>,
+        _options_variable_type: &Option<BTreeMap<String, Option<Expression>>>,
         default_value: &Box<Option<Expression>>,
         nullable: &bool,
-        inten_value: &Option<String>,
+        intent_value: &Option<String>,
     ) -> Self {
         let transform_type = variable_type.clone().unwrap_or("String".to_string());
 
-        if nullable == &true && inten_value.is_none() {
+        if nullable == &true && intent_value.is_none() && default_value.is_none() {
             return ParsedValue::Null;
         }
 
-        let proposal_value = inten_value
-            .clone()
-            .expect(format!("Cannot found env {}", &name).as_str());
+        let proposal_value: String = if let Some(v) = intent_value {
+            v.clone()
+        } else if let Some(Expression::DefaultValue { value, .. }) = default_value.as_ref() {
+            value.clone()
+        } else {
+            panic!("{}", format!("Cannot found env {}", &name));
+        };
 
         match transform_type.to_lowercase().as_str() {
             "string" => ParsedValue::String(proposal_value),
@@ -194,7 +198,7 @@ impl Program {
                         options_variable_type,
                         default_value,
                         nullable,
-                        envs_values.get(name).unwrap(), // envs_values.get(&variable_type),
+                        envs_values.get(name).unwrap_or(&None), // envs_values.get(&variable_type),
                     ),
                 ),
                 _ => todo!("Expression is not supported"),
