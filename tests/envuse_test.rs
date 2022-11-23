@@ -4,7 +4,6 @@ mod envuse_test {
 
     use envuse_parser::envuse::create_program;
     use insta::{assert_debug_snapshot, assert_snapshot};
-    use wasm_bindgen::UnwrapThrowExt;
 
     #[test]
     fn should_catch_program_error() {

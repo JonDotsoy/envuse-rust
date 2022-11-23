@@ -1,6 +1,6 @@
 use std::collections::BTreeMap;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 use crate::syntax_error::SyntaxError;
 

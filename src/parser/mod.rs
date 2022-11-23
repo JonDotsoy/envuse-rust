@@ -6,8 +6,8 @@ use self::{
 };
 
 pub mod ast;
-pub mod tokenizer;
 pub mod span;
+pub mod tokenizer;
 
 /// Parse source
 pub fn parse<A: ToString>(payload: A) -> Result<Expression, SyntaxError> {

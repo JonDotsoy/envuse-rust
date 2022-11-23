@@ -184,7 +184,7 @@ impl Program {
             let (key, value) = match expression {
                 Expression::Variable {
                     span,
-                    comment,
+                    comment: _,
                     name,
                     variable_type,
                     options_variable_type,
