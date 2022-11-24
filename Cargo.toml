@@ -22,5 +22,4 @@ serde = { version = "1", features = ["derive"] }
 wasm-bindgen = "0.2.83"
 
 [dev-dependencies]
-colors = "0.0.1"
 insta = { version = "1.21.0", features = ["yaml", "serde"] }

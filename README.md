@@ -35,6 +35,31 @@ The type is described just after your variable name and using a colon symbol, th
 ABC: String
 ```
 
+Types supported:
+
+- `String`: A literal value read.
+- `Number`: Number of 32-bit (See more on [wiki](https://en.wikipedia.org/wiki/32-bit_computing)) of `−2,147,483,648` through `2,147,483,647`.
+- `Boolean`: Are values that can be `true` or `false`.
+
+### Nullable values
+
+To define a variable as nullable is indicated through a question mark (`?`) at the end of the type and not can be using this symbol if the variable use a default value. 
+
+Nullable values are values that might not transform since can be undefined in the environment and not have a default value in the envuse file. Below you can see a variable nullable.
+
+```envuse
+ABC: String?
+```
+
+### Default values
+
+Sometimes we want to define a default value for the apps if is not defined for the environment. We can define a default value for any variable just follow of the variable type or if the type isn't defined after the variable name. Below you can see two samples with a default value.
+
+```envuse
+ABC = "FOO"
+DEF: Number = 3_000
+```
+
 
 ## LICENSE MIT
 
