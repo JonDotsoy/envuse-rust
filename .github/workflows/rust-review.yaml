@@ -15,10 +15,14 @@ jobs:
         with:
           toolchain: stable
       - uses: actions/cache@v3
-        id: cargo-cache
         with:
-          path: ~/.cargo/registry
-          key: ~/.cargo/registry/CACHEDIR.TAG
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
       - name: 🛠️ Check Format
         uses: actions-rs/cargo@v1
         with:
