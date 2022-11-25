@@ -3,7 +3,8 @@ mod envuse_test {
     use std::collections::BTreeMap;
 
     use envuse_parser::envuse::create_program;
-    use insta::{assert_debug_snapshot, assert_snapshot};
+    use insta::{
+        assert_debug_snapshot, assert_snapshot, assert_yaml_snapshot};
 
     #[test]
     fn should_catch_program_error() {
@@ -96,5 +97,23 @@ mod envuse_test {
             .unwrap();
 
         assert_debug_snapshot!(program.parse([("BAR", "true")]));
+    }
+
+    #[test]
+    fn should_full_sample() {
+        let source = r#"
+            FOO: String = "val"
+            BAR: Number = 1223
+            BIZ: Boolean = "true"
+            BLI: String?
+        "#;
+
+        let program = create_program(source, Some(".envuse"))
+            .map_err(|e| panic!("{}", e.get_message()))
+            .unwrap();
+
+        let envs: [(&str, &str); 0] = [];
+
+        assert_yaml_snapshot!(program.parse(envs));
     }
 }

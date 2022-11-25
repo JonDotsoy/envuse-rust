@@ -11,7 +11,11 @@ impl Parser {
         envs: &BTreeMap<String, Option<String>>,
     ) -> ValueType {
         let default_type = String::from("String");
-        let transform_type = variable.variable_type.clone().unwrap_or(default_type).to_lowercase();
+        let transform_type = variable
+            .variable_type
+            .clone()
+            .unwrap_or(default_type)
+            .to_lowercase();
         let transformer = transformer_list
             .get(&transform_type)
             .expect(format!("Type {} is not valid type", transform_type).as_str());

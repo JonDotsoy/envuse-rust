@@ -1,9 +1,0 @@
----
-source: tests/envuse_test.rs
-expression: "program.parse([(\"FOO\", \"Biz\")])"
----
-{
-    "FOO": String(
-        "Biz",
-    ),
-}

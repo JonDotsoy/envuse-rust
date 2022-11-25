@@ -1,6 +1,5 @@
 ---
 source: tests/tokenizer_test.rs
-assertion_line: 11
 expression: tokens
 ---
 [
