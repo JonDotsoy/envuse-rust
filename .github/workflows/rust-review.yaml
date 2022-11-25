@@ -14,6 +14,11 @@ jobs:
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
+      - uses: actions/cache@v3
+        id: cargo-cache
+        with:
+          path: ~/.cargo/registry
+          key: ~/.cargo/registry/CACHEDIR.TAG
       - name: 🛠️ Check Format
         uses: actions-rs/cargo@v1
         with:
