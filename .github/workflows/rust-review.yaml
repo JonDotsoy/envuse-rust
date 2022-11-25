@@ -19,3 +19,7 @@ jobs:
         with:
           command: fmt
           args: --check
+      - name: 🦺 Tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
