@@ -3,8 +3,7 @@ mod envuse_test {
     use std::collections::BTreeMap;
 
     use envuse_parser::envuse::create_program;
-    use insta::{
-        assert_debug_snapshot, assert_snapshot, assert_yaml_snapshot};
+    use insta::{assert_debug_snapshot, assert_snapshot, assert_yaml_snapshot};
 
     #[test]
     fn should_catch_program_error() {
