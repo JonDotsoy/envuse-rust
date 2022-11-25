@@ -2,31 +2,35 @@
 source: tests/ast_test.rs
 expression: "AST::parse(tokens).unwrap()"
 ---
-Document {
-    span: Span {
-        start: 0,
-        end: 35,
-    },
-    executable: None,
-    elements: [
-        Variable {
-            span: Span {
-                start: 13,
-                end: 35,
-            },
-            comment: None,
-            name: "FOO",
-            variable_type: Some(
-                "String",
-            ),
-            options_variable_type: Some(
-                {
-                    "Biz": None,
-                    "Foo": None,
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 35,
+        },
+        executable: None,
+        elements: [
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 13,
+                        end: 35,
+                    },
+                    comment: None,
+                    name: "FOO",
+                    variable_type: Some(
+                        "String",
+                    ),
+                    options_variable_type: Some(
+                        {
+                            "Biz": None,
+                            "Foo": None,
+                        },
+                    ),
+                    default_value: None,
+                    nullable: true,
                 },
             ),
-            default_value: None,
-            nullable: true,
-        },
-    ],
-}
+        ],
+    },
+)

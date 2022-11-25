@@ -5,33 +5,39 @@ expression: program
 Program {
     location: None,
     source: "FOO=\"biz\"",
-    ast: Document {
-        span: Span {
-            start: 0,
-            end: 8,
-        },
-        executable: None,
-        elements: [
-            Variable {
-                span: Span {
-                    start: 0,
-                    end: 8,
-                },
-                comment: None,
-                name: "FOO",
-                variable_type: None,
-                options_variable_type: None,
-                default_value: Some(
-                    DefaultValue {
+    ast: Document(
+        Document {
+            span: Span {
+                start: 0,
+                end: 8,
+            },
+            executable: None,
+            elements: [
+                Variable(
+                    Variable {
                         span: Span {
-                            start: 5,
+                            start: 0,
                             end: 8,
                         },
-                        value: "biz",
+                        comment: None,
+                        name: "FOO",
+                        variable_type: None,
+                        options_variable_type: None,
+                        default_value: Some(
+                            DefaultValue(
+                                DefaultValue {
+                                    span: Span {
+                                        start: 5,
+                                        end: 8,
+                                    },
+                                    value: "biz",
+                                },
+                            ),
+                        ),
+                        nullable: false,
                     },
                 ),
-                nullable: false,
-            },
-        ],
-    },
+            ],
+        },
+    ),
 }

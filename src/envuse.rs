@@ -1,68 +1,3 @@
-#[cfg(feature = "with-js")]
-use js_sys::SyntaxError as JSSyntaxError;
-use serde::{Deserialize, Serialize};
-use std::collections::BTreeMap;
-#[cfg(feature = "with-js")]
-use wasm_bindgen::JsValue;
-
-
-
-#[derive(Debug)]
-pub enum ParsedValue {
-    String(String),
-    Number(u32),
-    Boolean(bool),
-    Null,
-}
-
-trait Parser {
-    fn to_parsed_value(
-        name: &String,
-        variable_type: &Option<String>,
-        options_variable_type: &Option<BTreeMap<String, Option<Expression>>>,
-        default_value: &Box<Option<Expression>>,
-        nullable: &bool,
-        intent_value: &Option<String>,
-    ) -> ParsedValue;
-}
-
-impl Parser for ParsedValue {
-    fn to_parsed_value(
-        name: &String,
-        variable_type: &Option<String>,
-        _options_variable_type: &Option<BTreeMap<String, Option<Expression>>>,
-        default_value: &Box<Option<Expression>>,
-        nullable: &bool,
-        intent_value: &Option<String>,
-    ) -> Self {
-        let transform_type = variable_type.clone().unwrap_or("String".to_string());
-
-        if nullable == &true && intent_value.is_none() && default_value.is_none() {
-            return ParsedValue::Null;
-        }
-
-        let proposal_value: String = if let Some(v) = intent_value {
-            v.clone()
-        } else if let Some(Expression::DefaultValue { value, .. }) = default_value.as_ref() {
-            value.clone()
-        } else {
-            panic!("{}", format!("Cannot found env {}", &name));
-        };
-
-        match transform_type.to_lowercase().as_str() {
-            "string" => ParsedValue::String(proposal_value),
-            "number" => {
-                ParsedValue::Number(proposal_value.replace("_", "").parse::<u32>().unwrap())
-            }
-            "boolean" => match proposal_value.to_lowercase().as_str() {
-                "on" | "true" | "1" => ParsedValue::Boolean(true),
-                _ => ParsedValue::Boolean(false),
-            },
-            _ => panic!("Type {} is not valid", transform_type),
-        }
-    }
-}
-
 use crate::{
     parser::{
         ast::{Expression, AST},
@@ -70,7 +5,22 @@ use crate::{
         tokenizer::Tokenizer,
     },
     syntax_error::{DebugOptions, SyntaxError},
+    transformers::{
+        kinds::{
+            boolean_transform::BooleanTransform, number_transform::NumberTransform,
+            string_transform::StringTransform,
+        },
+        parser::Parser,
+        transformer_list::TransformerList,
+        value_types::ValueType,
+    },
 };
+#[cfg(feature = "with-js")]
+use js_sys::SyntaxError as JSSyntaxError;
+use serde::{Deserialize, Serialize};
+use std::collections::BTreeMap;
+#[cfg(feature = "with-js")]
+use wasm_bindgen::JsValue;
 
 pub struct Evaluate;
 
@@ -96,7 +46,7 @@ impl ProgramError {
         handler: F,
     ) -> Result<Program, ProgramError> {
         match handler() {
-            Ok(r) => Ok(r),
+            Ok(program) => Ok(program),
             Err(error) => Err(ProgramError {
                 message: format!("SyntaxError: {}", error.message),
                 source: source.to_string(),
@@ -172,41 +122,37 @@ impl<T: ToString, D: ToOptionalString, const Z: usize> ToEnvs for [(T, D); Z] {
 }
 
 impl Program {
-    pub fn parse<T: ToEnvs>(&self, values: T) -> BTreeMap<String, ParsedValue> {
+    pub fn parse<T>(&self, values: T) -> BTreeMap<String, ValueType>
+    where
+        T: ToEnvs,
+    {
+        let mut transformer_list: TransformerList = Default::default();
+
+        transformer_list.insert("str", Box::new(StringTransform));
+        transformer_list.insert("string", Box::new(StringTransform));
+        transformer_list.insert("number", Box::new(NumberTransform));
+        transformer_list.insert("bool", Box::new(BooleanTransform));
+        transformer_list.insert("boolean", Box::new(BooleanTransform));
+
         let envs_values = values.to_envs();
 
-        let expressions = match &self.ast {
-            Expression::Document { elements, .. } => elements,
-            _ => panic!("AST Parser error, the ast expressions is not Expression::Document"),
-        };
+        let document = &self
+            .ast
+            .as_document()
+            .expect("AST Parser error, the ast expressions is not Expression::Document");
 
-        let mut configs: BTreeMap<String, ParsedValue> = BTreeMap::new();
+        let expressions = &document.elements;
+
+        let mut configs: BTreeMap<String, ValueType> = BTreeMap::new();
 
         for expression in expressions {
-            let (key, value) = match expression {
-                Expression::Variable {
-                    span,
-                    comment: _,
-                    name,
-                    variable_type,
-                    options_variable_type,
-                    default_value,
-                    nullable,
-                } => (
-                    name,
-                    ParsedValue::to_parsed_value(
-                        name,
-                        variable_type,
-                        options_variable_type,
-                        default_value,
-                        nullable,
-                        envs_values.get(name).unwrap_or(&None), // envs_values.get(&variable_type),
-                    ),
-                ),
-                _ => todo!("Expression is not supported"),
-            };
+            let variable = expression
+                .as_variable()
+                .expect("Expression is not supported");
 
-            configs.insert(key.to_string(), value);
+            let value = Parser::to_parse_variable(&transformer_list, &variable, &envs_values);
+
+            configs.insert(variable.name.to_string(), value);
         }
 
         configs

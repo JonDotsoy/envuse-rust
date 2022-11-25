@@ -1,52 +1,86 @@
+use super::{span::Span, tokenizer::Token};
+use crate::syntax_error::SyntaxError;
+use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
-use serde::{Deserialize, Serialize};
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Document {
+    pub span: Span,
+    pub executable: Option<String>,
+    pub elements: Vec<Expression>,
+}
 
-use crate::syntax_error::SyntaxError;
+#[derive(Debug, Serialize, Deserialize)]
+pub struct Variable {
+    pub span: Span,
+    pub comment: Box<Option<Expression>>,
+    pub name: String,
+    pub variable_type: Option<String>,
+    pub options_variable_type: Option<BTreeMap<String, Option<Expression>>>,
+    pub default_value: Box<Option<Expression>>,
+    pub nullable: bool,
+}
 
-use super::{span::Span, tokenizer::Token};
+#[derive(Debug, Serialize, Deserialize)]
+pub struct CommentBlock {
+    pub span: Span,
+    pub raw: Vec<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct DefaultValue {
+    pub span: Span,
+    pub value: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct OptionValue {
+    pub span: Span,
+    pub value: String,
+}
 
 /// Expression
-///
-/// Used
 #[derive(Debug, Serialize, Deserialize)]
 pub enum Expression {
-    Document {
-        span: Span,
-        executable: Option<String>,
-        elements: Vec<Expression>,
-    },
-    CommentBlock {
-        span: Span,
-        raw: Vec<String>,
-    },
-    Variable {
-        span: Span,
-        comment: Box<Option<Expression>>,
-        name: String,
-        variable_type: Option<String>,
-        options_variable_type: Option<BTreeMap<String, Option<Expression>>>,
-        default_value: Box<Option<Expression>>,
-        nullable: bool,
-    },
-    DefaultValue {
-        span: Span,
-        value: String,
-    },
-    OptionValue {
-        span: Span,
-        value: String,
-    },
+    Document(Document),
+    CommentBlock(CommentBlock),
+    Variable(Variable),
+    DefaultValue(DefaultValue),
+    OptionValue(OptionValue),
 }
 
 impl Expression {
     fn to_span(&self) -> Span {
         match self {
-            Expression::Document { span, .. } => span.clone(),
-            Expression::CommentBlock { span, .. } => span.clone(),
-            Expression::Variable { span, .. } => span.clone(),
-            Expression::DefaultValue { span, .. } => span.clone(),
-            Expression::OptionValue { span, .. } => span.clone(),
+            Expression::Document(Document { span, .. }) => span.clone(),
+            Expression::CommentBlock(CommentBlock { span, .. }) => span.clone(),
+            Expression::Variable(Variable { span, .. }) => span.clone(),
+            Expression::DefaultValue(DefaultValue { span, .. }) => span.clone(),
+            Expression::OptionValue(OptionValue { span, .. }) => span.clone(),
+        }
+    }
+
+    pub fn as_variable(&self) -> Option<&Variable> {
+        if let Self::Variable(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_document(&self) -> Option<&Document> {
+        if let Self::Document(v) = self {
+            Some(v)
+        } else {
+            None
+        }
+    }
+
+    pub fn as_default_value(&self) -> Option<&DefaultValue> {
+        if let Self::DefaultValue(v) = self {
+            Some(v)
+        } else {
+            None
         }
     }
 }
@@ -154,14 +188,14 @@ impl AST {
             span_end = expression.to_span().end;
         }
 
-        Ok(Expression::Document {
+        Ok(Expression::Document(Document {
             executable,
             elements,
             span: Span {
                 start: span_start,
                 end: span_end,
             },
-        })
+        }))
     }
 
     fn parse_expressions_list(
@@ -217,13 +251,13 @@ impl AST {
             tokens_cursor.forward(1);
         }
 
-        let comment = Expression::CommentBlock {
+        let comment = Expression::CommentBlock(CommentBlock {
             span: Span {
                 start: span_start,
                 end: span_end,
             },
             raw,
-        };
+        });
 
         if let Some(token) = tokens_cursor.select_current() {
             if token.kind == "keyword" {
@@ -308,7 +342,7 @@ impl AST {
             default_value = Some(default_value_expression);
         }
 
-        Ok(Expression::Variable {
+        Ok(Expression::Variable(Variable {
             span: Span {
                 start: span_start,
                 end: span_end,
@@ -319,7 +353,7 @@ impl AST {
             options_variable_type,
             default_value: Box::new(default_value),
             nullable,
-        })
+        }))
     }
 
     fn parse_items_default_value(
@@ -350,10 +384,10 @@ impl AST {
         tokens_cursor: &mut Cursor<Vec<Token>>,
     ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
-        let a = Expression::DefaultValue {
+        let a = Expression::DefaultValue(DefaultValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
-        };
+        });
         tokens_cursor.forward(1);
         return Ok(a);
     }
@@ -362,10 +396,10 @@ impl AST {
         tokens_cursor: &mut Cursor<Vec<Token>>,
     ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
-        let a = Expression::DefaultValue {
+        let a = Expression::DefaultValue(DefaultValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
-        };
+        });
         tokens_cursor.forward(1);
         return Ok(a);
     }
@@ -398,10 +432,10 @@ impl AST {
         tokens_cursor: &mut Cursor<Vec<Token>>,
     ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
-        let a = Expression::OptionValue {
+        let a = Expression::OptionValue(OptionValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
-        };
+        });
         tokens_cursor.forward(1);
         return Ok(a);
     }
@@ -410,10 +444,10 @@ impl AST {
         tokens_cursor: &mut Cursor<Vec<Token>>,
     ) -> Result<Expression, SyntaxError> {
         let token = tokens_cursor.select_current().unwrap();
-        let a = Expression::OptionValue {
+        let a = Expression::OptionValue(OptionValue {
             span: token.span.clone(),
             value: token.raw.to_string(),
-        };
+        });
         tokens_cursor.forward(1);
         return Ok(a);
     }
