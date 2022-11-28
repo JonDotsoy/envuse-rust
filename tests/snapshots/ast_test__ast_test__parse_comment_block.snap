@@ -1,0 +1,27 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens).unwrap()"
+---
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 35,
+        },
+        executable: None,
+        elements: [
+            CommentBlock(
+                CommentBlock {
+                    span: Span {
+                        start: 0,
+                        end: 35,
+                    },
+                    raw: [
+                        "# I'm comment",
+                        "# Second line comment",
+                    ],
+                },
+            ),
+        ],
+    },
+)

@@ -1,0 +1,7 @@
+---
+source: tests/envuse_test.rs
+expression: "program.parse([(\"BAR\", \"true\")])"
+---
+{
+    "FOO": Null,
+}

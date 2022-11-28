@@ -1,0 +1,10 @@
+---
+source: tests/envuse_test.rs
+expression: error.get_message()
+---
+SyntaxError: Unexpected type
+
+>    3 | 	FOO 123
+              ▀▀
+    at /app/.envuse:3:6
+

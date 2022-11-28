@@ -1,0 +1,14 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "colon",
+        raw: ":",
+        span: Span {
+            start: 0,
+            end: 1,
+        },
+    },
+]

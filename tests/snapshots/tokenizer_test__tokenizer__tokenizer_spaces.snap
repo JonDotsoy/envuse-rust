@@ -1,0 +1,158 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "keyword",
+        raw: "foo",
+        span: Span {
+            start: 0,
+            end: 3,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 3,
+            end: 4,
+        },
+    },
+    Token {
+        kind: "colon",
+        raw: ":",
+        span: Span {
+            start: 4,
+            end: 5,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 5,
+            end: 6,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "string",
+        span: Span {
+            start: 6,
+            end: 12,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 12,
+            end: 13,
+        },
+    },
+    Token {
+        kind: "equal",
+        raw: "=",
+        span: Span {
+            start: 13,
+            end: 14,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 14,
+            end: 15,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "asd",
+        span: Span {
+            start: 15,
+            end: 18,
+        },
+    },
+    Token {
+        kind: "newline",
+        raw: "\n",
+        span: Span {
+            start: 18,
+            end: 19,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "var",
+        span: Span {
+            start: 19,
+            end: 22,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 22,
+            end: 23,
+        },
+    },
+    Token {
+        kind: "colon",
+        raw: ":",
+        span: Span {
+            start: 23,
+            end: 24,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 24,
+            end: 25,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "int",
+        span: Span {
+            start: 25,
+            end: 28,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 28,
+            end: 29,
+        },
+    },
+    Token {
+        kind: "equal",
+        raw: "=",
+        span: Span {
+            start: 29,
+            end: 30,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 30,
+            end: 31,
+        },
+    },
+    Token {
+        kind: "string",
+        raw: "234",
+        span: Span {
+            start: 32,
+            end: 35,
+        },
+    },
+]

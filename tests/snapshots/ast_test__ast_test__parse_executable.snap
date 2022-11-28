@@ -1,0 +1,16 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens).unwrap()"
+---
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 9,
+        },
+        executable: Some(
+            "#!/bin/sh",
+        ),
+        elements: [],
+    },
+)

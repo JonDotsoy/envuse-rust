@@ -1,0 +1,41 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens).unwrap()"
+---
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 38,
+        },
+        executable: None,
+        elements: [
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 35,
+                        end: 38,
+                    },
+                    comment: Some(
+                        CommentBlock(
+                            CommentBlock {
+                                span: Span {
+                                    start: 13,
+                                    end: 22,
+                                },
+                                raw: [
+                                    "# comment",
+                                ],
+                            },
+                        ),
+                    ),
+                    name: "foo",
+                    variable_type: None,
+                    options_variable_type: None,
+                    default_value: None,
+                    nullable: false,
+                },
+            ),
+        ],
+    },
+)

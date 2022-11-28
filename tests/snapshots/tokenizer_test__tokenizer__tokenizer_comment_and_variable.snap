@@ -1,0 +1,46 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "comment",
+        raw: "# comment",
+        span: Span {
+            start: 0,
+            end: 9,
+        },
+    },
+    Token {
+        kind: "newline",
+        raw: "\n",
+        span: Span {
+            start: 9,
+            end: 10,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "FOO",
+        span: Span {
+            start: 10,
+            end: 13,
+        },
+    },
+    Token {
+        kind: "colon",
+        raw: ":",
+        span: Span {
+            start: 13,
+            end: 14,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "BAZ",
+        span: Span {
+            start: 14,
+            end: 17,
+        },
+    },
+]

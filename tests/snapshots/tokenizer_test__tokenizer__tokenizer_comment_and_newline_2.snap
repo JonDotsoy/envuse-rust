@@ -1,0 +1,38 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "comment",
+        raw: "# abc",
+        span: Span {
+            start: 0,
+            end: 5,
+        },
+    },
+    Token {
+        kind: "newline",
+        raw: "\n",
+        span: Span {
+            start: 5,
+            end: 6,
+        },
+    },
+    Token {
+        kind: "comment",
+        raw: "# defg",
+        span: Span {
+            start: 6,
+            end: 12,
+        },
+    },
+    Token {
+        kind: "newline",
+        raw: "\n",
+        span: Span {
+            start: 12,
+            end: 13,
+        },
+    },
+]

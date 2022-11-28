@@ -1,0 +1,46 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "keyword",
+        raw: "FOO",
+        span: Span {
+            start: 0,
+            end: 3,
+        },
+    },
+    Token {
+        kind: "colon",
+        raw: ":",
+        span: Span {
+            start: 3,
+            end: 4,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "BAZ",
+        span: Span {
+            start: 4,
+            end: 7,
+        },
+    },
+    Token {
+        kind: "equal",
+        raw: "=",
+        span: Span {
+            start: 7,
+            end: 8,
+        },
+    },
+    Token {
+        kind: "string",
+        raw: "abc",
+        span: Span {
+            start: 9,
+            end: 12,
+        },
+    },
+]

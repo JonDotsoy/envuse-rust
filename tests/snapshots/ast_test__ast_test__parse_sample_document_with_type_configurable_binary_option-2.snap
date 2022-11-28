@@ -1,0 +1,87 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens).unwrap()"
+---
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 84,
+        },
+        executable: None,
+        elements: [
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 13,
+                        end: 44,
+                    },
+                    comment: None,
+                    name: "FOO",
+                    variable_type: Some(
+                        "String",
+                    ),
+                    options_variable_type: Some(
+                        {
+                            "Max": Some(
+                                OptionValue(
+                                    OptionValue {
+                                        span: Span {
+                                            start: 30,
+                                            end: 33,
+                                        },
+                                        value: "500",
+                                    },
+                                ),
+                            ),
+                            "Sensitive": None,
+                        },
+                    ),
+                    default_value: None,
+                    nullable: false,
+                },
+            ),
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 57,
+                        end: 84,
+                    },
+                    comment: None,
+                    name: "BIZ",
+                    variable_type: Some(
+                        "String",
+                    ),
+                    options_variable_type: Some(
+                        {
+                            "Max": Some(
+                                OptionValue(
+                                    OptionValue {
+                                        span: Span {
+                                            start: 74,
+                                            end: 77,
+                                        },
+                                        value: "500",
+                                    },
+                                ),
+                            ),
+                            "Min": Some(
+                                OptionValue(
+                                    OptionValue {
+                                        span: Span {
+                                            start: 82,
+                                            end: 83,
+                                        },
+                                        value: "2",
+                                    },
+                                ),
+                            ),
+                        },
+                    ),
+                    default_value: None,
+                    nullable: false,
+                },
+            ),
+        ],
+    },
+)

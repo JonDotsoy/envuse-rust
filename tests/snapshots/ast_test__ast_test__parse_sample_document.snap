@@ -1,0 +1,117 @@
+---
+source: tests/ast_test.rs
+expression: "AST::parse(tokens).unwrap()"
+---
+Document(
+    Document {
+        span: Span {
+            start: 0,
+            end: 179,
+        },
+        executable: None,
+        elements: [
+            CommentBlock(
+                CommentBlock {
+                    span: Span {
+                        start: 13,
+                        end: 59,
+                    },
+                    raw: [
+                        "## Document comment",
+                        "## second line",
+                    ],
+                },
+            ),
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 95,
+                        end: 113,
+                    },
+                    comment: Some(
+                        CommentBlock(
+                            CommentBlock {
+                                span: Span {
+                                    start: 73,
+                                    end: 82,
+                                },
+                                raw: [
+                                    "# comment",
+                                ],
+                            },
+                        ),
+                    ),
+                    name: "foo",
+                    variable_type: Some(
+                        "string",
+                    ),
+                    options_variable_type: None,
+                    default_value: Some(
+                        DefaultValue(
+                            DefaultValue {
+                                span: Span {
+                                    start: 110,
+                                    end: 113,
+                                },
+                                value: "abc",
+                            },
+                        ),
+                    ),
+                    nullable: false,
+                },
+            ),
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 127,
+                        end: 145,
+                    },
+                    comment: None,
+                    name: "bax",
+                    variable_type: Some(
+                        "number",
+                    ),
+                    options_variable_type: None,
+                    default_value: Some(
+                        DefaultValue(
+                            DefaultValue {
+                                span: Span {
+                                    start: 142,
+                                    end: 145,
+                                },
+                                value: "123",
+                            },
+                        ),
+                    ),
+                    nullable: false,
+                },
+            ),
+            Variable(
+                Variable {
+                    span: Span {
+                        start: 159,
+                        end: 179,
+                    },
+                    comment: None,
+                    name: "port",
+                    variable_type: Some(
+                        "number",
+                    ),
+                    options_variable_type: None,
+                    default_value: Some(
+                        DefaultValue(
+                            DefaultValue {
+                                span: Span {
+                                    start: 174,
+                                    end: 179,
+                                },
+                                value: "3_000",
+                            },
+                        ),
+                    ),
+                    nullable: false,
+                },
+            ),
+        ],
+    },
+)

@@ -1,0 +1,14 @@
+---
+source: tests/ast_test.rs
+expression: err.debug_payload(&payload)
+---
+SyntaxError: fail
+
+>    3 | FOO: String<Max=500>
+              ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+>    4 | BIZ: String<Max=500 Min=2>
+         ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+>    5 | PORT: Number
+         ▀▀▀▀
+    at <unknown>:3:6
+

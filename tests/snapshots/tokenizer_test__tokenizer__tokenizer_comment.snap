@@ -1,0 +1,14 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "comment",
+        raw: "# abc",
+        span: Span {
+            start: 0,
+            end: 5,
+        },
+    },
+]

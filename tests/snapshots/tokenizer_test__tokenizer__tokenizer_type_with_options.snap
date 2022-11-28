@@ -1,0 +1,86 @@
+---
+source: tests/tokenizer_test.rs
+expression: tokens
+---
+[
+    Token {
+        kind: "keyword",
+        raw: "String",
+        span: Span {
+            start: 0,
+            end: 6,
+        },
+    },
+    Token {
+        kind: "less_than",
+        raw: "<",
+        span: Span {
+            start: 6,
+            end: 7,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "Min",
+        span: Span {
+            start: 7,
+            end: 10,
+        },
+    },
+    Token {
+        kind: "equal",
+        raw: "=",
+        span: Span {
+            start: 10,
+            end: 11,
+        },
+    },
+    Token {
+        kind: "number",
+        raw: "2",
+        span: Span {
+            start: 11,
+            end: 12,
+        },
+    },
+    Token {
+        kind: "space",
+        raw: " ",
+        span: Span {
+            start: 12,
+            end: 13,
+        },
+    },
+    Token {
+        kind: "keyword",
+        raw: "Max",
+        span: Span {
+            start: 13,
+            end: 16,
+        },
+    },
+    Token {
+        kind: "equal",
+        raw: "=",
+        span: Span {
+            start: 16,
+            end: 17,
+        },
+    },
+    Token {
+        kind: "number",
+        raw: "10",
+        span: Span {
+            start: 17,
+            end: 19,
+        },
+    },
+    Token {
+        kind: "greater_than",
+        raw: ">",
+        span: Span {
+            start: 19,
+            end: 20,
+        },
+    },
+]

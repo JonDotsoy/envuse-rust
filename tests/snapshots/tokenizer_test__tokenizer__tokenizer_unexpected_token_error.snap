@@ -1,0 +1,13 @@
+---
+source: tests/tokenizer_test.rs
+expression: err
+---
+Some(
+    SyntaxError {
+        message: "Unexpected token",
+        span: Span {
+            start: 0,
+            end: 1,
+        },
+    },
+)

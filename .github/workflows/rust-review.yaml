@@ -1,0 +1,34 @@
+name: Review Code
+
+on:
+  push:
+    branches:
+      - "feature/*"
+
+jobs:
+  check_code:
+    name: Check Code
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - name: 🛠️ Check Format
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --check
+      - name: 🦺 Tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test

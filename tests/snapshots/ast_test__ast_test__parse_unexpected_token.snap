@@ -1,0 +1,13 @@
+---
+source: tests/ast_test.rs
+expression: err
+---
+Some(
+    SyntaxError {
+        message: "Unexpected token",
+        span: Span {
+            start: 15,
+            end: 16,
+        },
+    },
+)
