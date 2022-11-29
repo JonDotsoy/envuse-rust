@@ -8,7 +8,7 @@ on:
       - "feature/*"
 
 jobs:
-  check-code:
+  check_code:
     name: Check Code
     runs-on: ubuntu-latest
     steps:
@@ -36,7 +36,7 @@ jobs:
           command: test
   release-please:
     runs-on: ubuntu-latest
-    needs: check-code
+    needs: check_code
     if: github.ref_name == 'development'
     steps:
       - uses: google-github-actions/release-please-action@v3
@@ -46,10 +46,9 @@ jobs:
           release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
   publish:
-    needs:
-      - release-please
+    needs: release_please
     runs-on: ubuntu-latest
-    if: ${{ jobs.release-please.outputs.release_created }}
+    if: ${{ jobs.release_please.outputs.release_created }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions-rs/toolchain@v1
