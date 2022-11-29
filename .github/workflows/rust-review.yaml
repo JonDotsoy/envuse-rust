@@ -3,6 +3,7 @@ name: Review Code
 on:
   push:
     branches:
+      - "release-please--branches--development--components--release-please-action"
       - "development"
       - "feature/*"
 
