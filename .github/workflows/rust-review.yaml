@@ -3,6 +3,7 @@ name: Review Code
 on:
   push:
     branches:
+      - "development"
       - "feature/*"
 
 jobs:
