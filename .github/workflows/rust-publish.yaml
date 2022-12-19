@@ -1,4 +1,4 @@
-name: Review Code
+name: Publish
 
 on:
   push:
