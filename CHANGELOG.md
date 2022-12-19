@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.1](https://github.com/JonDotsoy/envuse-rust/compare/v0.5.0...v0.5.1) (2022-12-19)
+
+
+### Miscellaneous Chores
+
+* release 0.5.1 ([e5a128e](https://github.com/JonDotsoy/envuse-rust/commit/e5a128e750b971a2d06bde80849da69fb6199ca5))
+
 ## [0.5.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.4.0...v0.5.0) (2022-12-19)
 
 
