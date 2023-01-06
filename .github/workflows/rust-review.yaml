@@ -5,6 +5,7 @@ on:
     branches:
       - "development"
       - "feature/*"
+      - "release-please--branches--development--components--release-please-action"
 
 jobs:
   check_code:
