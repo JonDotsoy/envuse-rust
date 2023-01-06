@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.5.1...v0.6.0) (2023-01-06)
+
+
+### Features
+
+* workflow release ([#14](https://github.com/JonDotsoy/envuse-rust/issues/14)) ([5282638](https://github.com/JonDotsoy/envuse-rust/commit/52826380ef0d0b4a187035c214843e4dc25c5415))
+
 ## [0.5.1](https://github.com/JonDotsoy/envuse-rust/compare/v0.5.0...v0.5.1) (2022-12-19)
 
 
