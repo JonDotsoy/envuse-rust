@@ -1,14 +1,13 @@
-name: Review Code
+name: Prepare release
 
 on:
   push:
     branches:
       - "development"
-      - "feature/*"
 
 jobs:
   check_code:
-    name: Check Code
+    name: 🦺 Check code and Test code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,9 +33,11 @@ jobs:
         with:
           command: test
   release_please:
+    name: 🔗 Run Release please
     runs-on: ubuntu-latest
     needs: check_code
-    if: github.ref_name == 'development'
+    outputs:
+      releases_created: ${{ steps.release.outputs.releases_created }}
     steps:
       - uses: google-github-actions/release-please-action@v3
         id: release
@@ -44,3 +45,17 @@ jobs:
           package-name: release-please-action
           release-type: rust
           token: ${{ secrets.RELEASE_GH_TOKEN }}
+  publish:
+    name: 🚀 Publish new version
+    needs: release_please
+    runs-on: ubuntu-latest
+    if: ${{ needs.release_please.outputs.releases_created }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      - uses: katyo/publish-crates@v1
+        with:
+          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
