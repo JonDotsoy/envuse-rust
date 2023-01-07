@@ -40,16 +40,16 @@ mod envuse_test {
             (String::from("FOO"), Some(String::from(""))),
             (String::from("JUM"), None),
             (String::from("TAZ"), None),
-        ]));
+        ])).unwrap();
 
-        program.parse([("AAA", ""), ("FOO", ""), ("JUM", ""), ("TAZ", "")]);
+        program.parse([("AAA", ""), ("FOO", ""), ("JUM", ""), ("TAZ", "")]).unwrap();
 
         program.parse([
             ("AAA", None),
             ("FOO", Some("")),
             ("JUM", None),
             ("TAZ", None),
-        ]);
+        ]).unwrap();
     }
 
     #[test]
@@ -113,6 +113,18 @@ mod envuse_test {
 
         let envs: [(&str, &str); 0] = [];
 
-        assert_yaml_snapshot!(program.parse(envs));
+        assert_yaml_snapshot!(program.parse(envs).unwrap());
+    }
+
+    #[test]
+    fn should_catch_error_type_unknown() {
+        let source = r###"
+            FOO: Unknown
+        "###;
+
+        let program = create_program(source, None).unwrap();
+        program.parse::<[(&str, &str); 0]>([]).unwrap();
+
+        dbg!(program);
     }
 }

@@ -122,7 +122,7 @@ impl<T: ToString, D: ToOptionalString, const Z: usize> ToEnvs for [(T, D); Z] {
 }
 
 impl Program {
-    pub fn parse<T>(&self, values: T) -> BTreeMap<String, ValueType>
+    pub fn parse<T>(&self, values: T) -> Result<BTreeMap<String, ValueType>, ProgramError>
     where
         T: ToEnvs,
     {
@@ -155,7 +155,7 @@ impl Program {
             configs.insert(variable.name.to_string(), value);
         }
 
-        configs
+        Ok(configs)
     }
 }
 
