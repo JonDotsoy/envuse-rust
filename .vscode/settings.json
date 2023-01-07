@@ -4,6 +4,9 @@
         "unresolved-proc-macro"
     ],
     "cSpell.words": [
-        "envuse"
+        "ascii",
+        "bindgen",
+        "envuse",
+        "nullable"
     ]
 }

@@ -383,7 +383,7 @@ impl Tokenizer {
             if cursor.current_matches_char('_') {
                 if !cursor.next_matches_range_char(&vec!['0'..='9']) {
                     return Err(SyntaxError::new(
-                        "Only one undesrcore is allowed as numeric separator",
+                        "Only one underscore is allowed as numeric separator",
                         Span {
                             start: span_start,
                             end: cursor.index,
