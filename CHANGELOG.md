@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.7.0...v0.8.0) (2023-01-10)
+
+
+### Features
+
+* upgrade throw errors ([2494aef](https://github.com/JonDotsoy/envuse-rust/commit/2494aef990fbe1ae1e50ec56df313f324adf176a))
+
 ## [0.7.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.6.0...v0.7.0) (2023-01-10)
 
 
