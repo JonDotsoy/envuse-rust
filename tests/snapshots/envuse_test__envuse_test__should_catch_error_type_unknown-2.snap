@@ -11,7 +11,9 @@ ProgramError {
         },
     ),
     source: "\n            FOO: unknown\n        ",
-    location: None,
+    location: Some(
+        ".envuse",
+    ),
     cause: Some(
         ParseError {
             message: "FOO value cannot be null",

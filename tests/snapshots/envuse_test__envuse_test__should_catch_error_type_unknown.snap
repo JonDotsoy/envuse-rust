@@ -6,5 +6,5 @@ ParseError: FOO value cannot be null
 
 >    2 |             FOO: unknown
                      ▀▀▀▀▀▀▀▀▀▀▀▀
-    at <unknown>:2:13
+    at .envuse:2:13
 
