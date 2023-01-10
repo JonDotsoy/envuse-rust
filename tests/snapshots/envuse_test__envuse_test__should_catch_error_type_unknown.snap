@@ -1,0 +1,10 @@
+---
+source: tests/envuse_test.rs
+expression: error.to_string()
+---
+ParseError: FOO value cannot be null
+
+>    2 |             FOO: unknown
+                     ▀▀▀▀▀▀▀▀▀▀▀▀
+    at .envuse:2:13
+

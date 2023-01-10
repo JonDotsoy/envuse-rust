@@ -1,9 +1,11 @@
 ---
 source: tests/envuse_test.rs
-expression: "program.parse([(\"FOO\", \"30_000\")])"
+expression: "program.parse([(\"FOO\", \"30_000\")], None)"
 ---
-{
-    "FOO": Number(
-        30000,
-    ),
-}
+Ok(
+    {
+        "FOO": Number(
+            30000,
+        ),
+    },
+)

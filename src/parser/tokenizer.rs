@@ -202,13 +202,13 @@ impl Tokenizer {
             // dbg!(&cursor);
             // dbg!(&cursor.current_char());
             // dbg!(&tokens);
-            return Err(SyntaxError::new(
+            do yeet SyntaxError::new(
                 "Unexpected token",
                 Span {
                     start: cursor.index,
                     end: cursor.index + 1,
                 },
-            ));
+            )
         }
 
         Ok(tokens)
@@ -382,35 +382,35 @@ impl Tokenizer {
             }
             if cursor.current_matches_char('_') {
                 if !cursor.next_matches_range_char(&vec!['0'..='9']) {
-                    return Err(SyntaxError::new(
+                    do yeet SyntaxError::new(
                         "Only one underscore is allowed as numeric separator",
                         Span {
                             start: span_start,
                             end: cursor.index,
                         },
-                    ));
+                    )
                 }
                 cursor.forward(1);
                 continue;
             }
             if cursor.current_matches_char('.') {
                 if decimal {
-                    return Err(SyntaxError::new(
+                    do yeet SyntaxError::new(
                         "Unexpected token",
                         Span {
                             start: span_start,
                             end: cursor.index,
                         },
-                    ));
+                    )
                 }
                 if !cursor.next_matches_range_char(&vec!['0'..='9']) {
-                    return Err(SyntaxError::new(
+                    do yeet SyntaxError::new(
                         "Invalid or unexpected token",
                         Span {
                             start: span_start,
                             end: cursor.index,
                         },
-                    ));
+                    )
                 }
                 decimal = true;
                 cursor.forward(1);

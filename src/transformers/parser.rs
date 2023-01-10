@@ -1,5 +1,8 @@
-use super::{transformer_list::TransformerList, value_types::ValueType};
-use crate::parser::ast::Variable;
+use super::super::errors::parser_error::ParseError;
+
+use super::super::parser::ast::Variable;
+use super::transformer_list::TransformerList;
+use super::value_types::ValueType;
 use std::collections::BTreeMap;
 
 pub struct Parser;
@@ -9,7 +12,7 @@ impl Parser {
         transformer_list: &TransformerList,
         variable: &Variable,
         envs: &BTreeMap<String, Option<String>>,
-    ) -> ValueType {
+    ) -> Result<ValueType, ParseError> {
         let default_type = String::from("String");
         let transform_type = variable
             .variable_type
@@ -23,21 +26,24 @@ impl Parser {
         let value_env = envs.get(&variable.name).unwrap_or(&None);
 
         if variable.nullable && value_env.is_none() && variable.default_value.is_none() {
-            return ValueType::Null;
+            return Ok(ValueType::Null);
         }
 
-        let value_to_tansform = if let Some(value_env) = value_env {
+        let value_to_transform = if let Some(value_env) = value_env {
             value_env.to_string()
         } else if let Some(expression) = variable.default_value.as_ref() {
             if let Some(default_value) = expression.as_default_value() {
                 default_value.value.to_string()
             } else {
-                panic!("Expression cannot found error");
+                do yeet ParseError::new(format!("Expression cannot found error"), variable.span)
             }
         } else {
-            panic!("{}", format!("Cannot found value for {}", &variable.name));
+            do yeet ParseError::new(
+                format!("{} value cannot be null", &variable.name),
+                variable.span,
+            )
         };
 
-        transformer.as_ref().parse(value_to_tansform)
+        Ok(transformer.as_ref().parse(value_to_transform))
     }
 }

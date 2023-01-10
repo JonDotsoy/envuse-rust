@@ -1,9 +1,9 @@
 #[cfg(test)]
 mod ast_test {
-    use envuse_parser::parser::ast::AST;
     use envuse_parser::parser::span::Span;
     use envuse_parser::parser::tokenizer::Tokenizer;
-    use envuse_parser::syntax_error::SyntaxError;
+
+    use envuse_parser::{parser::ast::AST, utils::display_syntax::DisplaySyntax};
     use insta::{assert_debug_snapshot, assert_snapshot, assert_yaml_snapshot};
 
     #[test]
@@ -150,7 +150,8 @@ mod ast_test {
         let payload = "#!/bin/envuse\nFOO: String<Max=500>\nBIZ: String<Max=500 Min=2>\n";
 
         assert_snapshot!(
-            SyntaxError::new("fail", Span { start: 14, end: 17 }).debug_payload(&payload)
+            DisplaySyntax::new("SyntaxError: fail", Span { start: 14, end: 17 })
+                .debug_payload(&payload)
         );
     }
 
@@ -159,7 +160,7 @@ mod ast_test {
         let payload =
             "#!/bin/envuse\n# Inline comment\nFOO: String<Max=500>\nBIZ: String<Max=500 Min=2>\nPORT: Number\n";
 
-        let err = SyntaxError::new("fail", Span { start: 36, end: 83 });
+        let err = DisplaySyntax::new("SyntaxError: fail", Span { start: 36, end: 83 });
 
         // dbg!(err.span.substring(&payload));
 

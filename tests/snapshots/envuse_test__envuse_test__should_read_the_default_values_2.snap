@@ -1,9 +1,11 @@
 ---
 source: tests/envuse_test.rs
-expression: "program.parse([(\"BAR\", \"true\")])"
+expression: "program.parse([(\"BAR\", \"true\")], None)"
 ---
-{
-    "FOO": String(
-        "Biz",
-    ),
-}
+Ok(
+    {
+        "FOO": String(
+            "Biz",
+        ),
+    },
+)
