@@ -1,5 +1,10 @@
 # Envuse Parser
 
+![Crates.io](https://img.shields.io/crates/d/envuse-parser?style=for-the-badge)
+![Crates.io (recent)](https://img.shields.io/crates/dr/envuse-parser?style=for-the-badge)
+![Crates.io](https://img.shields.io/crates/v/envuse-parser?style=for-the-badge)
+[![docs.rs](https://img.shields.io/docsrs/envuse-parser?style=for-the-badge)](https://docs.rs/envuse-parser/)
+
 Parser to Envuse files.
 
 ## The standard library
