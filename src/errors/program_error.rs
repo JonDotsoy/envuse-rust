@@ -1,8 +1,10 @@
 use crate::parser::span::Span;
-use crate::syntax_error::DebugOptions;
 use crate::syntax_error::SyntaxError;
+use crate::utils::display_syntax::{DisplaySyntax, DisplaySyntaxDebugOptions};
 use std::error::Error;
 use std::fmt;
+
+use super::parser_error::ParseError;
 
 // #[cfg(feature = "with-js")]
 
@@ -12,18 +14,35 @@ pub struct ProgramError {
     pub span: Option<Span>,
     pub source: String,
     pub location: Option<String>,
-    pub cause: Option<SyntaxError>,
+    pub cause: Option<Box<dyn Error>>,
 }
 
 impl ProgramError {
     pub fn get_message(&self) -> String {
-        let mut debug_options = DebugOptions::new();
+        let mut debug_options = DisplaySyntaxDebugOptions::new();
         debug_options.location = self.location.clone();
 
-        self.cause
-            .as_ref()
-            .unwrap()
-            .debug_payload_configurable(&self.source, &debug_options)
+        match &self.cause {
+            Some(error) if error.is::<SyntaxError>() => {
+                let syntax_error = error.downcast_ref::<SyntaxError>().unwrap();
+                let display_syntax = DisplaySyntax::new(
+                    format!("SyntaxError: {}", syntax_error.message),
+                    syntax_error.span.clone(),
+                );
+
+                display_syntax.debug_payload_configurable(&self.source, &debug_options)
+            }
+            Some(error) if error.is::<ParseError>() => {
+                let parse_error = error.downcast_ref::<ParseError>().unwrap();
+                let display_syntax = DisplaySyntax::new(
+                    format!("ParseError: {}", parse_error.message),
+                    parse_error.span.clone(),
+                );
+
+                display_syntax.debug_payload_configurable(&self.source, &debug_options)
+            }
+            _ => self.message.to_string(),
+        }
     }
 }
 

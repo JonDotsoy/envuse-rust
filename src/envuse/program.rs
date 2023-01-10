@@ -1,4 +1,3 @@
-use super::super::envuse::to_envs::ToEnvs;
 use super::super::parser::ast::Expression;
 use super::super::transformers::kinds::boolean_transform::BooleanTransform;
 use super::super::transformers::kinds::number_transform::NumberTransform;
@@ -7,6 +6,7 @@ use super::super::transformers::parser::Parser;
 use super::super::transformers::transformer_list::TransformerList;
 use super::super::transformers::value_types::ValueType;
 use super::to_custom_transformers::ToCustomTransformers;
+use super::{super::envuse::to_envs::ToEnvs, display_program_error::display_program_error};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -20,6 +20,22 @@ pub struct Program {
 
 impl Program {
     pub fn parse<T, D>(
+        &self,
+        values: T,
+        custom_transformers: D,
+    ) -> Result<BTreeMap<String, ValueType>, Box<dyn std::error::Error>>
+    where
+        T: ToEnvs,
+        D: ToCustomTransformers,
+    {
+        display_program_error(
+            self.parse_unwrap(values, custom_transformers),
+            self.source.clone(),
+            self.location.clone(),
+        )
+    }
+
+    fn parse_unwrap<T, D>(
         &self,
         values: T,
         custom_transformers: D,

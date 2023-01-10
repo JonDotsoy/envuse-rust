@@ -1,4 +1,5 @@
 pub mod create_program;
+pub mod display_program_error;
 pub mod evaluate;
 pub mod evaluate_options;
 pub mod parse_options;

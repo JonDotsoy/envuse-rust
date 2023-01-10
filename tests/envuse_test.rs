@@ -138,17 +138,10 @@ mod envuse_test {
             FOO: unknown
         "###;
 
-        let program = create_program(source, None).unwrap();
-        let parsed = program.parse(None, None);
+        let program = create_program(source, Some(".envuse")).unwrap();
+        let error = program.parse(None, None).unwrap_err();
 
-        assert!(
-            parsed.is_err(),
-            "Expected the result Program::parse to be an error"
-        );
-
-        assert_eq!(
-            parsed.err().unwrap().to_string(),
-            "FOO value cannot be null"
-        );
+        assert_snapshot!(error.to_string());
+        assert_debug_snapshot!(error);
     }
 }

@@ -35,10 +35,13 @@ impl Parser {
             if let Some(default_value) = expression.as_default_value() {
                 default_value.value.to_string()
             } else {
-                do yeet ParseError(format!("Expression cannot found error"))
+                do yeet ParseError::new(format!("Expression cannot found error"), variable.span)
             }
         } else {
-            do yeet ParseError(format!("{} value cannot be null", &variable.name))
+            do yeet ParseError::new(
+                format!("{} value cannot be null", &variable.name),
+                variable.span,
+            )
         };
 
         Ok(transformer.as_ref().parse(value_to_transform))

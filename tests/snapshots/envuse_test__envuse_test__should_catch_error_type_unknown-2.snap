@@ -1,0 +1,24 @@
+---
+source: tests/envuse_test.rs
+expression: error
+---
+ProgramError {
+    message: "ParseError: FOO value cannot be null",
+    span: Some(
+        Span {
+            start: 13,
+            end: 25,
+        },
+    ),
+    source: "\n            FOO: unknown\n        ",
+    location: None,
+    cause: Some(
+        ParseError {
+            message: "FOO value cannot be null",
+            span: Span {
+                start: 13,
+                end: 25,
+            },
+        },
+    ),
+}
