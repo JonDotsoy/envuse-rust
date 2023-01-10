@@ -4,7 +4,7 @@ mod program_error_test {
 
     #[test]
     fn should_transform_error() {
-        let err = ProgramError {
+        let _err = ProgramError {
             cause: None,
             location: None,
             message: "".to_string(),

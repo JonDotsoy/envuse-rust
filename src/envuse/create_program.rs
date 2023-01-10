@@ -1,8 +1,6 @@
-use serde::de::Error;
-
 use crate::errors::program_error::ProgramError;
-use crate::errors::to_program_error::ToProgramError;
-use crate::syntax_error::{self, SyntaxError};
+
+use crate::syntax_error::SyntaxError;
 
 use super::super::parser::ast::AST;
 use super::super::parser::tokenizer::Tokenizer;

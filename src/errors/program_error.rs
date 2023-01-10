@@ -1,4 +1,3 @@
-use super::super::envuse::program::Program;
 use crate::parser::span::Span;
 use crate::syntax_error::DebugOptions;
 use crate::syntax_error::SyntaxError;
@@ -6,8 +5,6 @@ use std::error::Error;
 use std::fmt;
 
 // #[cfg(feature = "with-js")]
-use js_sys::SyntaxError as JSSyntaxError;
-use wasm_bindgen::JsValue;
 
 #[derive(Debug)]
 pub struct ProgramError {

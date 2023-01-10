@@ -1,9 +1,6 @@
 #[cfg(test)]
 mod tokenizer {
-    use envuse_parser::{
-        parser::tokenizer::{Token, Tokenizer},
-        syntax_error::SyntaxError,
-    };
+    use envuse_parser::parser::tokenizer::Tokenizer;
     use insta::assert_debug_snapshot;
     use std::dbg;
 
