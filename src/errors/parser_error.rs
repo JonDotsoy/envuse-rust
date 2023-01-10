@@ -9,8 +9,14 @@ pub struct ParseError {
 }
 
 impl ParseError {
-    pub fn new(message: String, span: Span) -> Self {
-        Self { message, span }
+    pub fn new<T>(message: T, span: Span) -> Self
+    where
+        T: ToString,
+    {
+        Self {
+            message: message.to_string(),
+            span,
+        }
     }
 }
 

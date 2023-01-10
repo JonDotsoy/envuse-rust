@@ -1,10 +1,10 @@
+use super::super::envuse::program::Program;
+use super::parser_error::ParseError;
 use crate::parser::span::Span;
 use crate::syntax_error::SyntaxError;
 use crate::utils::display_syntax::{DisplaySyntax, DisplaySyntaxDebugOptions};
 use std::error::Error;
 use std::fmt;
-
-use super::parser_error::ParseError;
 
 #[derive(Debug)]
 pub struct ProgramError {
@@ -51,3 +51,16 @@ impl fmt::Display for ProgramError {
 }
 
 impl std::error::Error for ProgramError {}
+
+impl From<(&Program, &str)> for ProgramError {
+    fn from(arg: (&Program, &str)) -> Self {
+        let (program, str) = arg;
+        ProgramError {
+            message: String::from(str),
+            span: None,
+            source: program.source.clone(),
+            location: program.location.clone(),
+            cause: None,
+        }
+    }
+}

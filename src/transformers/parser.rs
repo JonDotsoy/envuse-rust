@@ -19,9 +19,16 @@ impl Parser {
             .clone()
             .unwrap_or(default_type)
             .to_lowercase();
-        let transformer = transformer_list
-            .get(&transform_type)
-            .expect(format!("Type {} is not valid type", transform_type).as_str());
+
+        let transformer = match transformer_list.get(&transform_type) {
+            Some(transformer) => transformer,
+            _ => {
+                do yeet ParseError::new(
+                    format!("Type {} is not valid type", transform_type),
+                    variable.span,
+                )
+            }
+        };
 
         let value_env = envs.get(&variable.name).unwrap_or(&None);
 

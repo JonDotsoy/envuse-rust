@@ -1,3 +1,5 @@
+use crate::errors::program_error::ProgramError;
+
 use super::super::parser::ast::Expression;
 use super::super::transformers::kinds::boolean_transform::BooleanTransform;
 use super::super::transformers::kinds::number_transform::NumberTransform;
@@ -59,19 +61,25 @@ impl Program {
 
         let envs_values = values.to_envs();
 
-        let document = &self
-            .ast
-            .as_document()
-            .expect("AST Parser error, the ast expressions is not Expression::Document");
+        let document = match self.ast.as_document() {
+            Some(document) => document,
+            _ => {
+                do yeet ProgramError::from((
+                    self,
+                    "AST Parser error, the ast expressions is not Expression::Document",
+                ))
+            }
+        };
 
         let expressions = &document.elements;
 
         let mut configs: BTreeMap<String, ValueType> = BTreeMap::new();
 
         for expression in expressions {
-            let variable = expression
-                .as_variable()
-                .expect("Expression is not supported");
+            let variable = match expression.as_variable() {
+                Some(variable) => variable,
+                _ => do yeet ProgramError::from((self, "Expression is not supported")),
+            };
 
             let value = Parser::to_parse_variable(&transformer_list, &variable, &envs_values)?;
 
