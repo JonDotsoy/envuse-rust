@@ -6,8 +6,6 @@ use std::fmt;
 
 use super::parser_error::ParseError;
 
-// #[cfg(feature = "with-js")]
-
 #[derive(Debug)]
 pub struct ProgramError {
     pub message: String,
