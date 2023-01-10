@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.6.0...v0.7.0) (2023-01-10)
+
+
+### Features
+
+* update parse function ([#16](https://github.com/JonDotsoy/envuse-rust/issues/16)) ([4843d0e](https://github.com/JonDotsoy/envuse-rust/commit/4843d0e4a21dc0c2eaead0719875b8f46b1681ed))
+
+
+### Bug Fixes
+
+* correction spelling ([f096968](https://github.com/JonDotsoy/envuse-rust/commit/f0969689b0c0db179911c919163ff512da22cbef))
+
 ## [0.6.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.5.1...v0.6.0) (2023-01-06)
 
 
