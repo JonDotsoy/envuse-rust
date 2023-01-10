@@ -111,19 +111,19 @@ where
             if kinds_str.contains(&token.kind) {
                 Ok(token)
             } else {
-                Err(SyntaxError::new(
+                do yeet SyntaxError::new(
                     format!("Unexpected token {}", token.kind),
                     token.span.clone(),
-                ))
+                )
             }
         } else {
-            Err(SyntaxError::new(
+            do yeet SyntaxError::new(
                 "Unexpected token",
                 Span {
                     start: self.index,
                     end: self.index + 1,
                 },
-            ))
+            )
         }
     }
 
@@ -216,7 +216,7 @@ impl AST {
                 vec.push(Self::parse_variable(tokens_cursor, None)?);
                 continue;
             }
-            return Err(SyntaxError::new("Unexpected type", token.span.clone()));
+            do yeet SyntaxError::new("Unexpected type", token.span.clone())
         }
 
         Ok(vec)
@@ -366,16 +366,15 @@ impl AST {
             Some(token) if token.kind == "number" => {
                 Ok(Self::parse_items_default_value_number(tokens_cursor)?)
             }
-            Some(token) => Err(SyntaxError::new("Unexpected token", token.span.clone())),
+            Some(token) => do yeet SyntaxError::new("Unexpected token", token.span.clone()),
             _ => {
-                Err(SyntaxError::new(
+                do yeet SyntaxError::new(
                     "Unexpected token",
                     Span {
                         start: tokens_cursor.index,
                         end: tokens_cursor.index + 1,
                     },
-                ))
-                // panic!("Unexpected token");
+                )
             }
         }
     }
@@ -414,16 +413,15 @@ impl AST {
             Some(token) if token.kind == "number" => {
                 Ok(Self::parse_items_option_value_number(tokens_cursor)?)
             }
-            Some(token) => Err(SyntaxError::new("Unexpected token", token.span.clone())),
+            Some(token) => do yeet SyntaxError::new("Unexpected token", token.span.clone()),
             _ => {
-                Err(SyntaxError::new(
+                do yeet SyntaxError::new(
                     "Unexpected token",
                     Span {
                         start: tokens_cursor.index,
                         end: tokens_cursor.index + 1,
                     },
-                ))
-                // panic!("Unexpected token");
+                )
             }
         }
     }

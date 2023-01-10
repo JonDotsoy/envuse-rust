@@ -1,9 +1,11 @@
 ---
 source: tests/envuse_test.rs
-expression: "program.parse([(\"FOO\", \"true\")])"
+expression: "program.parse([(\"FOO\", \"true\")], None)"
 ---
-{
-    "FOO": Boolean(
-        true,
-    ),
-}
+Ok(
+    {
+        "FOO": Boolean(
+            true,
+        ),
+    },
+)

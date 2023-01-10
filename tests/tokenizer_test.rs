@@ -104,26 +104,31 @@ mod tokenizer {
         Tokenizer::parse("1_23").unwrap();
         Tokenizer::parse("1_23.23").unwrap();
 
-        fn syntax_error_contains<T: ToString, F: FnOnce() -> Result<Vec<Token>, SyntaxError>>(
-            f: F,
-            pat: T,
-        ) {
-            let recive = f().err().unwrap().message;
-            let c = recive.contains(pat.to_string().as_str());
-            assert!(c, "Expected: {}\nRecive: {}", pat.to_string(), recive);
-        }
+        assert_eq!(
+            Tokenizer::parse("12__23").unwrap_err().to_string(),
+            "Only one underscore is allowed as numeric separator"
+        );
 
-        syntax_error_contains(
-            || Tokenizer::parse("12__23"),
-            "Only one undesrcore is allowed as numeric separator",
+        assert_eq!(
+            Tokenizer::parse("12__23").unwrap_err().to_string(),
+            "Only one underscore is allowed as numeric separator",
         );
-        syntax_error_contains(
-            || Tokenizer::parse("12_"),
-            "Only one undesrcore is allowed as numeric separator",
+        assert_eq!(
+            Tokenizer::parse("12_").unwrap_err().to_string(),
+            "Only one underscore is allowed as numeric separator",
         );
-        syntax_error_contains(|| Tokenizer::parse("12_3._"), "Invalid or unexpected token");
-        syntax_error_contains(|| Tokenizer::parse("12_3._"), "Invalid or unexpected token");
-        syntax_error_contains(|| Tokenizer::parse("12_3.3_3.1"), "Unexpected token");
+        assert_eq!(
+            Tokenizer::parse("12_3._").unwrap_err().to_string(),
+            "Invalid or unexpected token"
+        );
+        assert_eq!(
+            Tokenizer::parse("12_3._").unwrap_err().to_string(),
+            "Invalid or unexpected token"
+        );
+        assert_eq!(
+            Tokenizer::parse("12_3.3_3.1").unwrap_err().to_string(),
+            "Unexpected token"
+        );
     }
 
     #[test]

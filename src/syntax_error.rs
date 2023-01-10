@@ -29,11 +29,19 @@ pub struct Line {
     span: Span,
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SyntaxError {
     pub message: String,
     pub span: Span,
 }
+
+impl std::fmt::Display for SyntaxError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.message)
+    }
+}
+
+impl std::error::Error for SyntaxError {}
 
 pub trait ErrorWithSpan {
     fn get_message(&self) -> Span;
@@ -169,5 +177,14 @@ impl SyntaxError {
         }
 
         buff
+    }
+}
+
+impl From<&&Box<SyntaxError>> for SyntaxError {
+    fn from(value: &&Box<SyntaxError>) -> Self {
+        Self {
+            message: value.message.clone(),
+            span: value.span.clone(),
+        }
     }
 }
