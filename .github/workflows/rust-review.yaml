@@ -28,12 +28,12 @@ jobs:
       - name: 🛠️ Check Format
         uses: actions-rs/cargo@v1
         with:
-          command: +nightly fmt
+          command: fmt
           args: --check
       - name: 🦺 Tests
         uses: actions-rs/cargo@v1
         with:
-          command: +nightly test
+          command: test
   release_please:
     name: 🔗 Run Release please
     runs-on: ubuntu-latest
