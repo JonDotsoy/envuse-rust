@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.2](https://github.com/JonDotsoy/envuse-rust/compare/v0.8.1...v0.8.2) (2023-01-11)
+
+
+### Miscellaneous Chores
+
+* release 0.8.2 ([27a4358](https://github.com/JonDotsoy/envuse-rust/commit/27a4358e03ed91afd399cdca01b6916ec4412c4f))
+
 ## [0.8.1](https://github.com/JonDotsoy/envuse-rust/compare/v0.8.0...v0.8.1) (2023-01-11)
 
 
