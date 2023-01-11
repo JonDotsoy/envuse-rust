@@ -7,6 +7,15 @@ license = "MIT"
 authors = ["Jonathan Delgado <hi@jon.soy> (http://jon.soy)"]
 homepage = "https://github.com/JonDotsoy/envuse-rust"
 repository = "https://github.com/JonDotsoy/envuse-rust"
+exclude = [
+    ".github/",
+    ".vscode/",
+    "tests/",
+    ".gitignore",
+    ".release-please-manifest.json",
+    "release-please-config.json",
+    "rust-toolchain.toml",
+]
 
 [lib]
 doc = true
