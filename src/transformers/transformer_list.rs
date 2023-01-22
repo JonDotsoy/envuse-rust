@@ -1,7 +1,6 @@
 use super::trait_transformer::Transformer;
 use std::collections::HashMap;
 
-
 type TransformerType = Box<dyn Transformer>;
 
 pub struct TransformerList {
