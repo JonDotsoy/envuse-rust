@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/JonDotsoy/envuse-rust/compare/v0.9.0...v0.9.1) (2023-01-22)
+
+
+### Bug Fixes
+
+* trait ToCustomTransformers ([94df302](https://github.com/JonDotsoy/envuse-rust/commit/94df30248ae40660af2222ee37365376acaa08cb))
+
 ## [0.9.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.8.2...v0.9.0) (2023-01-22)
 
 
