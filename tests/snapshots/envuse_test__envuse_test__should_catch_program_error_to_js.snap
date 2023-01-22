@@ -1,6 +1,6 @@
 ---
 source: tests/envuse_test.rs
-expression: error.get_message()
+expression: error.to_string()
 ---
 SyntaxError: Unexpected type
 

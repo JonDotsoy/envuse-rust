@@ -1,0 +1,10 @@
+---
+source: tests/envuse_test.rs
+expression: parsed
+---
+{
+    "FOO": Custom(
+        "fiz",
+        "bar",
+    ),
+}

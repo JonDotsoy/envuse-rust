@@ -3,7 +3,7 @@ source: tests/envuse_test.rs
 expression: error
 ---
 ProgramError {
-    message: "ParseError: FOO value cannot be null",
+    message: "ParseError: Type unknown is not valid type",
     span: Some(
         Span {
             start: 13,
@@ -16,7 +16,7 @@ ProgramError {
     ),
     cause: Some(
         ParseError {
-            message: "FOO value cannot be null",
+            message: "Type unknown is not valid type",
             span: Span {
                 start: 13,
                 end: 25,

@@ -1,6 +1,6 @@
 ---
 source: tests/ast_test.rs
-expression: "SyntaxError::new(\"fail\", Span { start: 14, end: 17 }).debug_payload(&payload)"
+expression: "DisplaySyntax::new(\"SyntaxError: fail\",\n        Span { start: 14, end: 17 }).debug_payload(&payload)"
 ---
 SyntaxError: fail
 

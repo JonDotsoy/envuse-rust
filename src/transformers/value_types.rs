@@ -6,4 +6,5 @@ pub enum ValueType {
     Boolean(bool),
     Number(u32),
     String(String),
+    Custom(String, String),
 }

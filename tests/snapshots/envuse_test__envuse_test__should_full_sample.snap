@@ -1,6 +1,6 @@
 ---
 source: tests/envuse_test.rs
-expression: program.parse(envs)
+expression: "program.parse(envs, None).unwrap()"
 ---
 BAR:
   Number: 1223

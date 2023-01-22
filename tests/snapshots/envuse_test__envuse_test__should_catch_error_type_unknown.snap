@@ -2,7 +2,7 @@
 source: tests/envuse_test.rs
 expression: error.to_string()
 ---
-ParseError: FOO value cannot be null
+ParseError: Type unknown is not valid type
 
 >    2 |             FOO: unknown
                      ▀▀▀▀▀▀▀▀▀▀▀▀

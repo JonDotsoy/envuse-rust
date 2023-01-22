@@ -1,4 +1,5 @@
 use crate::errors::program_error::ProgramError;
+use crate::transformers::kinds::custom_transform::CustomTransform;
 
 use super::super::parser::ast::Expression;
 use super::super::transformers::kinds::boolean_transform::BooleanTransform;
@@ -48,15 +49,16 @@ impl Program {
     {
         let mut transformer_list: TransformerList = Default::default();
 
-        transformer_list.insert("unknown", Box::new(StringTransform));
+        // transformer_list.insert("unknown", Box::new(StringTransform));
         transformer_list.insert("str", Box::new(StringTransform));
         transformer_list.insert("string", Box::new(StringTransform));
+        transformer_list.insert("int", Box::new(NumberTransform));
         transformer_list.insert("number", Box::new(NumberTransform));
         transformer_list.insert("bool", Box::new(BooleanTransform));
         transformer_list.insert("boolean", Box::new(BooleanTransform));
 
         for key in custom_transformers.to_vec() {
-            transformer_list.insert(key, Box::new(StringTransform));
+            transformer_list.insert(key.to_lowercase(), Box::new(CustomTransform));
         }
 
         let envs_values = values.to_envs();

@@ -51,6 +51,8 @@ impl Parser {
             )
         };
 
-        Ok(transformer.as_ref().parse(value_to_transform))
+        Ok(transformer
+            .as_ref()
+            .parse(transform_type, value_to_transform))
     }
 }

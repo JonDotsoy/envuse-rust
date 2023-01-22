@@ -144,4 +144,20 @@ mod envuse_test {
         assert_snapshot!(error.to_string());
         assert_debug_snapshot!(error);
     }
+
+    #[test]
+    fn should_parse_custom_types() {
+        let source = r###"
+            FOO: FIZ
+        "###;
+
+        let program = create_program(source, Some(".envuse")).unwrap();
+
+        let custom_transformers = ["FIZ"];
+        let values = [("FOO", "bar")];
+
+        let parsed = program.parse(values, custom_transformers).unwrap();
+
+        assert_debug_snapshot!(parsed);
+    }
 }
