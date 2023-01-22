@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.0](https://github.com/JonDotsoy/envuse-rust/compare/v0.8.2...v0.9.0) (2023-01-22)
+
+
+### Features
+
+* add custom types ([20fb347](https://github.com/JonDotsoy/envuse-rust/commit/20fb347a79154cb290e5b09caf462474e1a6fab4))
+
 ## [0.8.2](https://github.com/JonDotsoy/envuse-rust/compare/v0.8.1...v0.8.2) (2023-01-11)
 
 
