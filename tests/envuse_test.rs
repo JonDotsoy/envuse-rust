@@ -47,12 +47,15 @@ mod envuse_test {
                     (String::from("JUM"), None),
                     (String::from("TAZ"), None),
                 ]),
-                None,
+                Option::<Vec<String>>::None,
             )
             .unwrap();
 
         program
-            .parse([("AAA", ""), ("FOO", ""), ("JUM", ""), ("TAZ", "")], None)
+            .parse(
+                [("AAA", ""), ("FOO", ""), ("JUM", ""), ("TAZ", "")],
+                Option::<Vec<String>>::None,
+            )
             .unwrap();
 
         program
@@ -63,7 +66,7 @@ mod envuse_test {
                     ("JUM", None),
                     ("TAZ", None),
                 ],
-                None,
+                Option::<Vec<String>>::None,
             )
             .unwrap();
     }
@@ -72,28 +75,28 @@ mod envuse_test {
     fn should_parse_an_string_value() {
         let program = create_program(r#"FOO="biz""#, None).unwrap();
 
-        assert_debug_snapshot!(program.parse([("FOO", "BAR")], None));
+        assert_debug_snapshot!(program.parse([("FOO", "BAR")], Option::<Vec<String>>::None));
     }
 
     #[test]
     fn should_parse_an_number_value() {
         let program = create_program(r#"FOO:Number"#, None).unwrap();
 
-        assert_debug_snapshot!(program.parse([("FOO", "30_000")], None));
+        assert_debug_snapshot!(program.parse([("FOO", "30_000")], Option::<Vec<String>>::None));
     }
 
     #[test]
     fn should_parse_an_boolean_value() {
         let program = create_program(r#"FOO:Boolean"#, None).unwrap();
 
-        assert_debug_snapshot!(program.parse([("FOO", "true")], None));
+        assert_debug_snapshot!(program.parse([("FOO", "true")], Option::<Vec<String>>::None));
     }
 
     #[test]
     fn should_parse_an_null_value() {
         let program = create_program(r#"FOO: String?"#, None).unwrap();
 
-        assert_debug_snapshot!(program.parse([("BAR", "true")], None));
+        assert_debug_snapshot!(program.parse([("BAR", "true")], Option::<Vec<String>>::None));
     }
 
     #[test]
@@ -102,7 +105,7 @@ mod envuse_test {
             .map_err(|e| panic!("{}", e.to_string()))
             .unwrap();
 
-        assert_debug_snapshot!(program.parse([("BAR", "true")], None));
+        assert_debug_snapshot!(program.parse([("BAR", "true")], Option::<Vec<String>>::None));
     }
 
     #[test]
@@ -111,7 +114,7 @@ mod envuse_test {
             .map_err(|e| panic!("{}", e.to_string()))
             .unwrap();
 
-        assert_debug_snapshot!(program.parse([("BAR", "true")], None));
+        assert_debug_snapshot!(program.parse([("BAR", "true")], Option::<Vec<String>>::None));
     }
 
     #[test]
@@ -129,7 +132,7 @@ mod envuse_test {
 
         let envs: [(&str, &str); 0] = [];
 
-        assert_yaml_snapshot!(program.parse(envs, None).unwrap());
+        assert_yaml_snapshot!(program.parse(envs, Option::<Vec<String>>::None).unwrap());
     }
 
     #[test]
@@ -139,7 +142,9 @@ mod envuse_test {
         "###;
 
         let program = create_program(source, Some(".envuse")).unwrap();
-        let error = program.parse(None, None).unwrap_err();
+        let error = program
+            .parse(None, Option::<Vec<String>>::None)
+            .unwrap_err();
 
         assert_snapshot!(error.to_string());
         assert_debug_snapshot!(error);

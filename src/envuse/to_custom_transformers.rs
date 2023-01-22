@@ -1,14 +1,19 @@
+use std::{ptr::NonNull, vec};
+
 pub trait ToCustomTransformers {
     fn to_vec(self) -> Vec<String>;
 }
 
-impl ToCustomTransformers for Option<String> {
+impl<T: ToString> ToCustomTransformers for Option<Vec<T>> {
     fn to_vec(self) -> Vec<String> {
-        vec![]
+        match self {
+            Some(a) => a.iter().map(|s| s.to_string()).collect(),
+            None => vec![],
+        }
     }
 }
 
-impl ToCustomTransformers for Vec<&str> {
+impl<T: ToString> ToCustomTransformers for Vec<T> {
     fn to_vec(self) -> Vec<String> {
         self.iter().map(|s| s.to_string()).collect()
     }
